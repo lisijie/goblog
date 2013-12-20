@@ -1,0 +1,31 @@
+<fieldset>
+	<legend>文章列表</legend>
+	<form method="post" name="p">
+	<table class="table table-list">
+		<thead>
+			<tr>
+				<th width="60">ID</th>
+				<th>标题</th>
+				<th width="150">发布时间</th>
+				<th width="120">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{range $k, $v := .list}}
+		<tr>
+			<td>{{$v.Id}}</td>
+			<td><a href="/article/{{$v.Id}}" target="_blank">{{$v.Title}}</a></td>
+			<td>{{date $v.Posttime "Y-m-d H:i:s"}}</td>
+			<td><a href="/admin/article/edit?id={{$v.Id}}">编辑</a> | <a href="/admin/article/delete?id={{$v.Id}}">删除</a></td>
+		</tr>
+		{{end}}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="20">{{str2html .pagebar}}</td>
+			</tr>
+		</tfoot>
+	</table>
+	</form>
+
+</fieldset>

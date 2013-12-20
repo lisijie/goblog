@@ -1,0 +1,41 @@
+<fieldset>
+	<legend>编辑文章</legend>
+	<form method="post" name="p" action="/admin/article/save">
+	<input type="hidden" name="id" value="{{.post.Id}}" />
+	<table class="table table-form">
+		<tbody>
+			<tr>
+				<th width="60">标题</th>
+				<td><input type="text" name="title" class="span6" value="{{.post.Title}}" /></td>
+			</tr>
+			<tr>
+				<th>类别</th>
+				<td><input type="text" name="tags" class="span3" value="{{.post.Tags}}" /> <span>多个用英文逗号","分隔</span></td>
+			</tr>
+			<tr>
+				<th>内容</th>
+				<td>
+					<script type="text/javascript" charset="utf-8">
+						window.UEDITOR_HOME_URL = "/static/ueditor/";
+					</script>
+					<script type="text/javascript" src="/static/ueditor/ueditor.config.js"></script>
+					<script type="text/javascript" src="/static/ueditor/ueditor.all.min.js"></script>
+					<textarea id="content" name="content">{{str2html .post.Content}}</textarea>
+					<script type="text/javascript" charset="utf-8">
+						var options = {"filePath":"","imagePath":"","initialFrameWidth":"90%","initialFrameHeight":"400"};
+						var ue = UE.getEditor("content", options);
+					</script>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+		<tr>
+			<td></td>
+			<td><button type="submit" class="btn"><i class="icon-ok"></i> 提交</button>
+				<button type="button" class="btn" onclick="javascript:history.back();">取消</button></td>
+		</tr>
+		</tfoot>
+	</table>
+	</form>
+
+</fieldset>

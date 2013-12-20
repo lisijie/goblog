@@ -1,0 +1,27 @@
+<div itemscope itemtype="http://schema.org/Blog">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">{{.post.Title}}</h1>
+	<div class="entry-content" itemprop="articleBody">
+	{{str2html .post.Content}}
+	</div>
+</article>
+</div>
+
+<section id="comment">
+    <!--高速版，加载速度快，使用前需测试页面的兼容性-->
+	<div id="SOHUCS"></div>
+	<script>
+	  (function(){
+	    var appid = 'cyqPDiySE',
+	    conf = 'prod_d77e68596c15c53c2a33ad143739902d';
+	    var doc = document,
+	    s = doc.createElement('script'),
+	    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+	    s.type = 'text/javascript';
+	    s.charset = 'utf-8';
+	    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+	    h.insertBefore(s,h.firstChild);
+	    window.SCS_NO_IFRAME = true;
+	  })()
+	</script>
+</section>
