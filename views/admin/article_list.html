@@ -16,7 +16,7 @@
 			<td>{{$v.Id}}</td>
 			<td><a href="/article/{{$v.Id}}" target="_blank">{{$v.Title}}</a></td>
 			<td>{{date $v.Posttime "Y-m-d H:i:s"}}</td>
-			<td><a href="/admin/article/edit?id={{$v.Id}}">编辑</a> | <a href="/admin/article/delete?id={{$v.Id}}">删除</a></td>
+			<td><a href="/admin/article/edit?id={{$v.Id}}">编辑</a> | <a href="/admin/article/delete?id={{$v.Id}}" onclick="return del_confirm()">删除</a></td>
 		</tr>
 		{{end}}
 		</tbody>

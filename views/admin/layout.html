@@ -7,16 +7,16 @@
 	<meta name="robots" content="all">
 	<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
-	<link href="/static/admin/css/style.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/css/admin.css" rel="stylesheet" type="text/css"/>
 	<script src="/static/js/jquery.min.js" type="text/javascript"></script>
 	<script src="/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="/static/admin/js/common.js" type="text/javascript"></script>
+	<script src="/static/js/admin.js" type="text/javascript"></script>
 </head>
 <body>
 
 <div class="header">
 	<div class="container">
-	<h3>GoBlog 后台管理</h3>
+	<h1>GoBlog 后台管理</h1>
 	</div>
 </div>
 
@@ -25,17 +25,23 @@
 		<div class="span2">
 		<div class="well">
 		    <ul class="nav nav-list">
-		    <li class="nav-header">系统管理</li>
-		    <li><a href="/admin/system/setting">系统设置</a></li>
-		    <li><a href="/admin">信息统计</a></li>
-		    
-		    <li class="nav-header">内容管理</li>
-			<li><a href="/admin/article/add">发布文章</a></li>
-		    <li><a href="/admin/article/list">文章列表</a></li>
-			
-			<li class="nav-header">用户管理</li>
-		    <li><a href="/admin/user/add">添加用户</a></li>
-		    <li><a href="/admin/user/list">用户列表</a></li>
+				<li style="font-size:11px">你好，{{.adminname}}</li>
+				<li class="divider"></li>
+
+				<li class="nav-header">系统管理</li>
+				<li><a href="/admin/system/setting">系统设置</a></li>
+				<li><a href="/admin">信息统计</a></li>
+				
+				<li class="nav-header">内容管理</li>
+				<li><a href="/admin/article/add">发布文章</a></li>
+				<li><a href="/admin/article/list">文章列表</a></li>
+				
+				<li class="nav-header">用户管理</li>
+				<li><a href="/admin/user/add">添加用户</a></li>
+				<li><a href="/admin/user/list">用户列表</a></li>
+
+				<li class="divider"></li>
+				<li><a href="/admin/logout"><i class="icon-off"> </i> 退出</a></li>
 		    </ul>
 		</div>
 	</div>
