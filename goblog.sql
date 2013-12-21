@@ -36,7 +36,7 @@ CREATE TABLE `tb_post` (
   `userid` mediumint(8) unsigned NOT NULL default '0',
   `author` varchar(15) NOT NULL default '',
   `title` varchar(100) NOT NULL default '',
-  `alias` varchar(200) NOT NULL default '',
+  `urlname` varchar(200) NOT NULL default '',
   `content` mediumtext NOT NULL,
   `tags` varchar(255) NOT NULL default '',
   `views` mediumint(8) unsigned NOT NULL default '0',
@@ -44,7 +44,7 @@ CREATE TABLE `tb_post` (
   `posttime` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   KEY `userid` (`userid`),
-  KEY `alias` (`alias`)
+  KEY `urlname` (`urlname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #

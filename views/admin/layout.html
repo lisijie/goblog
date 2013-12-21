@@ -16,7 +16,7 @@
 
 <div class="header">
 	<div class="container">
-	<h1>GoBlog 后台管理</h1>
+	<h1>GoBlog 后台管理 <span>您好！{{.adminname}} <i>|</i> <a href="/admin/logout">退出登录</a> <i>|</i> <a href="/admin/account/profile">个人信息</a> <i>|</i> <a href="/" target="_blank">站点首页</a></span></h1>
 	</div>
 </div>
 
@@ -25,8 +25,6 @@
 		<div class="span2">
 		<div class="well">
 		    <ul class="nav nav-list">
-				<li style="font-size:11px">你好，{{.adminname}}</li>
-				<li class="divider"></li>
 
 				<li class="nav-header">系统管理</li>
 				<li><a href="/admin/system/setting">系统设置</a></li>
@@ -39,9 +37,6 @@
 				<li class="nav-header">用户管理</li>
 				<li><a href="/admin/user/add">添加用户</a></li>
 				<li><a href="/admin/user/list">用户列表</a></li>
-
-				<li class="divider"></li>
-				<li><a href="/admin/logout"><i class="icon-off"> </i> 退出</a></li>
 		    </ul>
 		</div>
 	</div>

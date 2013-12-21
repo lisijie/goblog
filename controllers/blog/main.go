@@ -25,7 +25,7 @@ func (this *MainController) Index() {
 	}
 
 	o := orm.NewOrm()
-	o.QueryTable(&post).Limit(pagesize).All(&list)
+	o.QueryTable(&post).OrderBy("-id").Limit(pagesize).All(&list)
 
 	this.Data["list"] = list
 
@@ -68,7 +68,7 @@ func (this *MainController) Archives() {
 	result = make(map[string][]*models.Post)
 	if count > 0 {
 		var list []*models.Post
-		o.QueryTable(&models.Post{}).Limit(pagesize, (page-1)*pagesize).All(&list)
+		o.QueryTable(&models.Post{}).OrderBy("-id").Limit(pagesize, (page-1)*pagesize).All(&list)
 		for _, v := range list {
 			year := v.Posttime.Format("2006")
 			if _, ok := result[year]; !ok {

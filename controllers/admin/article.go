@@ -26,7 +26,7 @@ func (this *ArticleController) List() {
 	o := orm.NewOrm()
 	count, _ := o.QueryTable(&post).Count()
 	if count > 0 {
-		o.QueryTable(&post).Limit(pagesize, offset).All(&list)
+		o.QueryTable(&post).OrderBy("-id").Limit(pagesize, offset).All(&list)
 	}
 
 	this.Data["count"] = count
@@ -56,6 +56,7 @@ func (this *ArticleController) Save() {
 	title := this.GetString("title")
 	content := this.GetString("content")
 	tags := this.GetString("tags")
+	urlname := this.GetString("urlname")
 
 	addtags := make([]string, 0)
 	//标签过滤
@@ -84,6 +85,7 @@ func (this *ArticleController) Save() {
 		post.Posttime = time.Now()
 		post.Title = title
 		post.Content = content
+		post.Urlname = urlname
 		post.Id, _ = orm.NewOrm().Insert(post)
 	} else {
 		post.Id = id
@@ -92,6 +94,7 @@ func (this *ArticleController) Save() {
 		}
 		post.Title = title
 		post.Content = content
+		post.Urlname = urlname
 		if post.Tags != "" {
 			oldtags := strings.Split(post.Tags, ",")
 			//标签统计-1

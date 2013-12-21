@@ -5,11 +5,22 @@ a {color:#2277AA;}
 a:hover {color:#DC6C31; text-decoration:none;}
 ul {list-style:none;}
 
-.header {background:#464646 url('../images/admin/top-bg.png') repeat-x; color:#fff; height:41px; margin-bottom:10px}
+.header {
+	background:#464646 url('../images/admin/top-bg.png') repeat-x;
+	color:#fff;
+	height:41px; 
+	margin-bottom:10px
+}
+.header h1 {margin:0; padding:0; font-size:24px;text-shadow:1px 1px 0 #000;}
+.header h1 span {color:#f0f0f0; font-size:12px; font-weight: normal;margin-left: 50px;line-height: 41px}
+.header a {color:#f0f0f0;}
+.header a:hover {color: yellow;}
+.header i {color: #666}
+
 .main {background:#fff}
 
 .footer {border-top:1px solid #eee; text-align:center; font-size:12px; padding:10px 0;}
-.header h1 {margin:0;padding:0; font-size:24px;text-shadow:1px 1px 0 #000; }
+
 .page-content *, label {font-size:12px !important;}
 .page-content {
 	margin-left: 150px; 
@@ -20,7 +31,7 @@ ul {list-style:none;}
 }
 
 .table {font-size:12px}
-.table-hover tbody tr:hover>td,.table-hover tbody tr:hover>th{background-color:#FBFFE4}
+.table-list tbody tr:hover>td,.table-hover tbody tr:hover>th{background-color:#FBFFE4}
 .table-list {border:1px solid #ddd; border-collapse:separate}
 .table-list td {padding:5px;}
 .table-list th {

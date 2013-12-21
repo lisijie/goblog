@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	APP_VER = "0.1"
+	APP_VER = "0.1.0"
 )
 
 func main() {
@@ -34,6 +34,7 @@ func main() {
 	beego.Router("/admin", &admin.IndexController{}, "*:Index")
 	beego.Router("/admin/login", &admin.AccountController{}, "*:Login")
 	beego.Router("/admin/logout", &admin.AccountController{}, "*:Logout")
+	beego.Router("/admin/account/profile", &admin.AccountController{}, "*:Profile")
 	//系统管理
 	beego.Router("/admin/system/setting", &admin.SystemController{}, "*:Setting")
 	//内容管理

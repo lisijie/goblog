@@ -10,7 +10,7 @@ type Post struct {
 	Userid   int64
 	Author   string
 	Title    string
-	Alias    string
+	Urlname  string
 	Content  string `orm:"type(text)"`
 	Tags     string
 	Posttime time.Time `orm:"auto_now_add;type(datetime)"`

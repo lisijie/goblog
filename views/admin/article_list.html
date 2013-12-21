@@ -4,10 +4,11 @@
 	<table class="table table-list">
 		<thead>
 			<tr>
-				<th width="60">ID</th>
+				<th width="50">ID</th>
 				<th>标题</th>
-				<th width="150">发布时间</th>
-				<th width="120">操作</th>
+				<th width="150">类别</th>
+				<th width="120">发布时间</th>
+				<th width="100">操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -15,7 +16,8 @@
 		<tr>
 			<td>{{$v.Id}}</td>
 			<td><a href="/article/{{$v.Id}}" target="_blank">{{$v.Title}}</a></td>
-			<td>{{date $v.Posttime "Y-m-d H:i:s"}}</td>
+			<td>{{$v.Tags | tags2html}}</td>
+			<td>{{date $v.Posttime "m月d日 H:i:s"}}</td>
 			<td><a href="/admin/article/edit?id={{$v.Id}}">编辑</a> | <a href="/admin/article/delete?id={{$v.Id}}" onclick="return del_confirm()">删除</a></td>
 		</tr>
 		{{end}}
