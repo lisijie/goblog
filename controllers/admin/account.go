@@ -2,6 +2,7 @@ package admin
 
 import (
 	"github.com/lisijie/goblog/models"
+	"strconv"
 )
 
 type AccountController struct {
@@ -19,8 +20,8 @@ func (this *AccountController) Login() {
 			if user.Read("username") != nil || user.Password != models.Md5([]byte(password)) {
 				this.Data["errmsg"] = "帐号或密码错误"
 			} else {
-				this.SetSession("adminid", user.Id)
-				this.SetSession("adminname", user.Username)
+				authkey := models.Md5([]byte(this.getClientIp() + "|" + user.Password))
+				this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey)
 				this.Redirect("/admin", 302)
 			}
 		}

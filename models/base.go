@@ -13,25 +13,11 @@ import (
 	"strings"
 )
 
-//标签表
-type Tag struct {
-	Id    int64
-	Name  string
-	Count int64
-}
-
 //配置项表
 type Option struct {
 	Id    int64
 	Name  string
 	Value string
-}
-
-//标签内容关系表
-type TagPost struct {
-	Id     int64
-	Tagid  int64
-	Postid int64
 }
 
 func init() {

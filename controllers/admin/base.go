@@ -2,6 +2,8 @@ package admin
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/lisijie/goblog/models"
+	"strconv"
 	"strings"
 )
 
@@ -26,12 +28,21 @@ func (this *baseController) auth() {
 	if this.controllerName == "account" && (this.actionName == "login" || this.actionName == "logout") {
 
 	} else {
-		adminid := this.GetSession("adminid")
-		if adminid == nil {
-			//this.Redirect("/admin/login", 302)
-		} else {
-			this.userid = adminid.(int64)
-			this.username = this.GetSession("adminname").(string)
+		arr := strings.Split(this.Ctx.GetCookie("auth"), "|")
+		if len(arr) == 2 {
+			idstr, password := arr[0], arr[1]
+			userid, _ := strconv.ParseInt(idstr, 10, 0)
+			if userid > 0 {
+				var user models.User
+				user.Id = userid
+				if user.Read() == nil && password == models.Md5([]byte(this.getClientIp()+"|"+user.Password)) {
+					this.userid = user.Id
+					this.username = user.Username
+				}
+			}
+		}
+		if this.userid == 0 {
+			this.Redirect("/admin/login", 302)
 		}
 	}
 }
@@ -50,4 +61,9 @@ func (this *baseController) showerr(err error) {
 //是否post提交
 func (this *baseController) isPost() bool {
 	return this.Ctx.Request.Method == "POST"
+}
+
+func (this *baseController) getClientIp() string {
+	s := strings.Split(this.Ctx.Request.RemoteAddr, ":")
+	return s[0]
 }
