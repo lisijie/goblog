@@ -20,16 +20,6 @@ type Tag struct {
 	Count int64
 }
 
-//用户表
-type User struct {
-	Id         int64
-	Username   string `orm:"unique;size(15)"`
-	Password   string `orm:"size(32)"`
-	Lastlogin  int64
-	Logincount int64
-	Lastip     string
-}
-
 //配置项表
 type Option struct {
 	Id    int64

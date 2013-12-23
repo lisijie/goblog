@@ -43,7 +43,11 @@ func (this *ArticleController) Add() {
 //编辑
 func (this *ArticleController) Edit() {
 	id, _ := this.GetInt("id")
-	post, _ := models.GetPost(id)
+	var post models.Post
+	post.Id = id
+	if post.Read() != nil {
+		this.Abort("404")
+	}
 	this.Data["post"] = post
 	this.display()
 }
@@ -78,7 +82,7 @@ func (this *ArticleController) Save() {
 		}
 	}
 
-	post := new(models.Post)
+	var post models.Post
 	if id < 1 {
 		post.Userid = this.userid
 		post.Author = this.username
@@ -86,10 +90,10 @@ func (this *ArticleController) Save() {
 		post.Title = title
 		post.Content = content
 		post.Urlname = urlname
-		post.Id, _ = orm.NewOrm().Insert(post)
+		post.Insert()
 	} else {
 		post.Id = id
-		if o.Read(post) != nil {
+		if post.Read() != nil {
 			goto RD
 		}
 		post.Title = title
@@ -123,7 +127,7 @@ func (this *ArticleController) Save() {
 		}
 		post.Tags = strings.Join(addtags, ",")
 	}
-	o.Update(post)
+	post.Update()
 
 RD:
 	this.Redirect("/admin/article/list", 302)
@@ -131,12 +135,13 @@ RD:
 
 //删除
 func (this *ArticleController) Delete() {
-	id, _ := this.GetInt("id")
+	var post models.Post
 
-	post := new(models.Post)
-	post.Id = id
+	id, _ := this.GetInt("id")
 	o := orm.NewOrm()
-	if o.Read(post) == nil {
+
+	post.Id = id
+	if post.Read() == nil {
 		if post.Tags != "" {
 			oldtags := strings.Split(post.Tags, ",")
 			//标签统计-1
@@ -144,7 +149,7 @@ func (this *ArticleController) Delete() {
 			//删掉tag_post表的记录
 			o.QueryTable(&models.TagPost{}).Filter("postid", post.Id).Delete()
 		}
-		o.Delete(post)
+		post.Delete()
 	}
 	this.Redirect("/admin/article/list", 302)
 }

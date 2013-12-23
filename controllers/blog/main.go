@@ -34,9 +34,10 @@ func (this *MainController) Index() {
 
 //文章显示
 func (this *MainController) Show() {
+	var post models.Post
 	id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
-	post, err := models.GetPost(int64(id))
-	if err != nil {
+	post.Id = int64(id)
+	if post.Read() != nil {
 		this.Abort("404")
 	}
 	this.Data["post"] = post

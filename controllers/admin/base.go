@@ -19,6 +19,10 @@ func (this *baseController) Prepare() {
 	this.moduleName = "admin"
 	this.controllerName = strings.ToLower(controllerName[0 : len(controllerName)-10])
 	this.actionName = strings.ToLower(actionName)
+	this.auth()
+}
+
+func (this *baseController) auth() {
 	if this.controllerName == "account" && (this.actionName == "login" || this.actionName == "logout") {
 
 	} else {

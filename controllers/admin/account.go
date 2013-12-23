@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"github.com/astaxie/beego/orm"
 	"github.com/lisijie/goblog/models"
 )
 
@@ -15,12 +14,9 @@ func (this *AccountController) Login() {
 		account := this.GetString("account")
 		password := this.GetString("password")
 		if account != "" && password != "" {
-			var err error
-			o := orm.NewOrm()
-			user := new(models.User)
+			var user models.User
 			user.Username = account
-			err = o.Read(user, "Username")
-			if err == orm.ErrNoRows || user.Password != models.Md5([]byte(password)) {
+			if user.Read("username") != nil || user.Password != models.Md5([]byte(password)) {
 				this.Data["errmsg"] = "帐号或密码错误"
 			} else {
 				this.SetSession("adminid", user.Id)
@@ -41,11 +37,9 @@ func (this *AccountController) Logout() {
 
 //资料修改
 func (this *AccountController) Profile() {
-	o := orm.NewOrm()
-	user := new(models.User)
+	var user models.User
 	user.Id = this.userid
-	err := o.Read(user)
-	if err != nil {
+	if err := user.Read(); err != nil {
 		this.showerr(err)
 		return
 	}
