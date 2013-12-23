@@ -16,6 +16,7 @@ type Post struct {
 	Posttime time.Time `orm:"auto_now_add;type(datetime)"`
 	Views    int64
 	Status   int64
+	Updated  time.Time `orm:"auto_now_add;type(datetime)"`
 }
 
 func (m *Post) Insert() error {

@@ -34,12 +34,24 @@ func (this *MainController) Index() {
 
 //文章显示
 func (this *MainController) Show() {
-	var post models.Post
-	id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
-	post.Id = int64(id)
-	if post.Read() != nil {
+	var (
+		post models.Post
+		err  error
+	)
+
+	urlname := this.Ctx.Input.Param(":urlname")
+	if urlname != "" {
+		post.Urlname = urlname
+		err = post.Read("urlname")
+	} else {
+		id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
+		post.Id = int64(id)
+		err = post.Read()
+	}
+	if err != nil {
 		this.Abort("404")
 	}
+
 	this.Data["post"] = post
 	this.display("article")
 }

@@ -1,0 +1,48 @@
+<fieldset>
+	<legend>个人资料</legend>
+	<form class="form-horizontal" method="post">
+	<table class="table table-form">
+		<tbody>
+			<tr>
+				<th class="span2">帐号</th>
+				<td>
+					<b>{{.user.Username}}</b>
+				</td>
+			</tr>
+			<tr>
+				<th class="span2">登录次数</th>
+				<td>
+					{{.user.Logincount}}
+				</td>
+			</tr>
+			<tr>
+				<th class="span2">最后登录</th>
+				<td>
+					{{date .user.Lastlogin "Y-m-d H:i:s"}} ({{.user.Lastip}})
+				</td>
+			</tr>
+			<tr>
+				<th>当前密码：</th>
+				<td><input type="password" name="password" class="input" /> <span class="text-error">{{.errmsg.password}}</span></td>
+			</tr>
+			<tr>
+				<th>新密码：</th>
+				<td><input type="password" name="newpassword" class="input" /> <span class="text-error">{{.errmsg.newpassword}}</span></td>
+			</tr>
+			<tr>
+				<th>确认密码：</th>
+				<td><input type="password" name="newpassword2" class="input" /> <span class="text-error">{{.errmsg.newpassword2}}</span></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td></td>
+				<td>
+				<button type="submit" class="btn"><i class="icon-ok"></i> 保存</button>
+				<button type="button" class="btn" onclick="javascript:history.back();">取消</button>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+	</form>
+</fieldset>

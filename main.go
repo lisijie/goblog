@@ -17,10 +17,6 @@ func main() {
 		orm.Debug = true
 	}
 
-	beego.SessionOn = true
-	beego.SessionProvider = "file"
-	beego.SessionSavePath = "./data/session"
-
 	//前台路由
 	beego.Router("/", &blog.MainController{}, "*:Index")
 	beego.Router("/page/:id:int", &blog.MainController{}, "*:Index")
@@ -29,6 +25,7 @@ func main() {
 	beego.Router("/archives/page/:id:int", &blog.MainController{}, "*:Archives")
 	beego.Router("/category/:name([^/]+)", &blog.MainController{}, "*:Category")
 	beego.Router("/category/:name([^/]+)/page/:id:int", &blog.MainController{}, "*:Category")
+	beego.Router("/:urlname([^/]+)", &blog.MainController{}, "*:Show")
 
 	//后台路由
 	beego.Router("/admin", &admin.IndexController{}, "*:Index")

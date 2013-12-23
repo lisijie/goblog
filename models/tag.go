@@ -26,7 +26,6 @@ func (m *Tag) Read(fields ...string) error {
 }
 
 func (m *Tag) Update(fields ...string) error {
-	fields = append(fields, "Updated")
 	if _, err := orm.NewOrm().Update(m, fields...); err != nil {
 		return err
 	}

@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/lisijie/goblog/models"
 	"strconv"
@@ -64,6 +65,7 @@ func (this *baseController) isPost() bool {
 }
 
 func (this *baseController) getClientIp() string {
+	fmt.Println("addr:", this.Ctx.Request.RemoteAddr)
 	s := strings.Split(this.Ctx.Request.RemoteAddr, ":")
 	return s[0]
 }
