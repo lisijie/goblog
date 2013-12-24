@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/lisijie/goblog/models"
+	"os"
 	"strings"
 )
 
@@ -25,8 +26,16 @@ func (this *baseController) Prepare() {
 }
 
 func (this *baseController) display(tpl string) {
-	this.Layout = "blog/layout.html"
-	this.TplNames = "blog/" + tpl + ".html"
+	var theme string
+	if v, ok := this.options["theme"]; ok && v != "" {
+		theme = v
+	} else {
+		theme = "default"
+	}
+	if _, err := os.Stat(beego.ViewsPath + "/" + theme + "/layout.html"); err == nil {
+		this.Layout = theme + "/layout.html"
+	}
+	this.TplNames = theme + "/" + tpl + ".html"
 }
 
 func (this *baseController) getOptions() map[string]string {
