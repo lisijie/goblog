@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{.options.sitename}}</title>
+	<meta name="robots" content="all">
+	<meta name="keywords" content="{{.options.keywords}}">
+	<meta name="description" content="{{.options.description}}">
+	<link href="/static/themes/default/css/style.css" rel="stylesheet" type="text/css"/>
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="/static/js/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="http://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+</head>
+
+<body>
+	<!-- container -->
+	<div class="container">
+		<!-- left-col -->
+		<div class="left-col">
+			<!-- intrude-less -->
+			<div class="intrude-less">
+			<header id="header" class="inner">
+				<div class="profilepic">	
+					<script src="/static/themes/default/js/md5.js"></script>
+					<script type="text/javascript">
+						document.write("<img src='http://www.gravatar.com/avatar/" + MD5("{{.options.email}}") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+					</script>
+				</div>
+				<h1><a href="/">{{.options.sitename}}</a></h1>
+				<p class="subtitle">{{.options.subtitle}}</p>
+				<nav id="main-nav">
+					<ul class="main-navigation">
+					  <li><a href="/">Blog</a></li>
+					  <li><a href="/archives">Archives</a></li>
+					</ul>
+				</nav>
+				<nav id="sub-nav">
+					<div class="social">
+						<a class="weibo" href="http://www.weibo.com/lisijie86" title="Weibo">Weibo</a>
+						<a class="facebook" href="#" title="Facebook">Facebook</a>
+						<a class="twitter" href="#" title="Twitter">Twitter</a>
+						<a class="github" href="https://github.com/lisijie" title="GitHub">GitHub</a>
+					</div>
+				</nav>
+
+			</header>				
+			</div>
+			<!--/intrude-less-->
+		</div>
+		<!-- /left-col -->
+	
+		<!-- mid-col -->
+		<div class="mid-col">
+			<!-- mid-col-container -->
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+					{{.LayoutContent}}
+				</div>
+			</div>
+			<!-- /mid-col-container -->
+
+			<footer id="footer" class="inner">
+			<p>Copyright &copy; 2013 - <a href="{{.options.siteurl}}" title="{{.options.sitename}}">{{.options.sitename}}</a> - <span class="credit">Powered by <a href="http://www.lisijie.org">GoBlog</a></span></p>
+			Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+			</footer>
+
+			<script src="/static/themes/default/js/slash.js"></script>
+			<script src="/static/themes/default/js/jquery.fancybox.pack.js"></script>
+			<script type="text/javascript">
+			(function($){
+				$('.fancybox').fancybox();
+			})(jQuery);
+			</script>
+
+		</div>
+		<!-- /mid-col -->
+	</div>
+	<!-- /container -->
+</body>
+</html>
