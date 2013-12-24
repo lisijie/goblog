@@ -101,23 +101,6 @@ func Pager(page int64, totalnum int64, pagesize int64, url string) string {
 	return buf.String()
 }
 
-//文章标签转换为带链接的模版html
-func Tags2html(tags string) string {
-	if tags == "" {
-		return ""
-	}
-	var buf bytes.Buffer
-	arr := strings.Split(tags, ",")
-	for k, v := range arr {
-		if k > 0 {
-			buf.WriteString(", ")
-		}
-		tag := Tag{Name: v}
-		buf.WriteString(tag.Link())
-	}
-	return buf.String()
-}
-
 func Rawurlencode(str string) string {
 	return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
 }
