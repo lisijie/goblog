@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/lisijie/goblog/models"
 	"strconv"
@@ -25,6 +24,7 @@ func (this *baseController) Prepare() {
 	this.auth()
 }
 
+//登录状态验证
 func (this *baseController) auth() {
 	if this.controllerName == "account" && (this.actionName == "login" || this.actionName == "logout") {
 
@@ -48,6 +48,7 @@ func (this *baseController) auth() {
 	}
 }
 
+//渲染模版
 func (this *baseController) display() {
 	this.Data["adminid"] = this.userid
 	this.Data["adminname"] = this.username
@@ -55,8 +56,17 @@ func (this *baseController) display() {
 	this.TplNames = this.moduleName + "/" + this.controllerName + "_" + this.actionName + ".html"
 }
 
-func (this *baseController) showerr(err error) {
-	this.Ctx.WriteString(err.Error())
+//显示错误提示
+func (this *baseController) showmsg(msg ...string) {
+	if len(msg) == 1 {
+		msg = append(msg, this.Ctx.Request.Referer())
+	}
+	this.Data["adminid"] = this.userid
+	this.Data["adminname"] = this.username
+	this.Data["msg"] = msg[0]
+	this.Data["redirect"] = msg[1]
+	this.Layout = this.moduleName + "/layout.html"
+	this.TplNames = this.moduleName + "/" + "showmsg.html"
 }
 
 //是否post提交
@@ -64,8 +74,8 @@ func (this *baseController) isPost() bool {
 	return this.Ctx.Request.Method == "POST"
 }
 
+//获取用户IP地址
 func (this *baseController) getClientIp() string {
-	fmt.Println("addr:", this.Ctx.Request.RemoteAddr)
 	s := strings.Split(this.Ctx.Request.RemoteAddr, ":")
 	return s[0]
 }

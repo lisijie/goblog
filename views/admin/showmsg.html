@@ -1,0 +1,23 @@
+<table class="table-list" style="margin:0 auto; margin-top:30px; width:500px;">
+	<thead>
+		<tr>
+			<th><b>提示信息</b></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td height="50"><p>{{.msg}}</p></td>
+		</tr>
+	</tbody>
+	<tfoot>
+	<tr>
+		<td colspan="20" align="center">
+		<a href="{{.redirect}}">如果您的浏览器没自动跳转，请点击这里</a>
+		<script type="text/javascript">
+		setTimeout("window.location.href='{{.redirect}}'", 3000);
+		</script>
+		</td>
+	</tr>
+	</tfoot>
+	
+</table>

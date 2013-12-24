@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"github.com/astaxie/beego/cache"
 )
 
@@ -17,7 +16,6 @@ type LocalCache struct {
 }
 
 func (this *LocalCache) Get(key string) interface{} {
-	fmt.Println("Get " + key)
 	if v, ok := this.data[key]; ok {
 		return v
 	}
@@ -25,7 +23,6 @@ func (this *LocalCache) Get(key string) interface{} {
 }
 
 func (this *LocalCache) Put(key string, val interface{}, timeout int64) error {
-	fmt.Println("PUT " + key)
 	this.data[key] = val
 	return nil
 }

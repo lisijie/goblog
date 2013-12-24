@@ -43,8 +43,7 @@ func (this *ArticleController) Add() {
 //编辑
 func (this *ArticleController) Edit() {
 	id, _ := this.GetInt("id")
-	var post models.Post
-	post.Id = id
+	post := models.Post{Id: id}
 	if post.Read() != nil {
 		this.Abort("404")
 	}
@@ -110,20 +109,16 @@ func (this *ArticleController) Save() {
 
 	if len(addtags) > 0 {
 		for _, v := range addtags {
-			tag := new(models.Tag)
-			tag.Name = v
-			if o.Read(tag, "Name") == orm.ErrNoRows {
+			tag := models.Tag{Name: v}
+			if tag.Read("Name") == orm.ErrNoRows {
 				tag.Count = 1
-				tag.Id, _ = o.Insert(tag)
+				tag.Insert()
 			} else {
 				tag.Count += 1
-				o.Update(tag)
+				tag.Update("Count")
 			}
-
-			tp := new(models.TagPost)
-			tp.Tagid = tag.Id
-			tp.Postid = post.Id
-			o.Insert(tp)
+			tp := models.TagPost{Tagid: tag.Id, Postid: post.Id}
+			tp.Insert()
 		}
 		post.Tags = strings.Join(addtags, ",")
 	}
@@ -135,12 +130,9 @@ RD:
 
 //删除
 func (this *ArticleController) Delete() {
-	var post models.Post
-
 	id, _ := this.GetInt("id")
 	o := orm.NewOrm()
-
-	post.Id = id
+	post := models.Post{Id: id}
 	if post.Read() == nil {
 		if post.Tags != "" {
 			oldtags := strings.Split(post.Tags, ",")
@@ -151,5 +143,6 @@ func (this *ArticleController) Delete() {
 		}
 		post.Delete()
 	}
+
 	this.Redirect("/admin/article/list", 302)
 }

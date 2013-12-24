@@ -1,13 +1,14 @@
 package models
 
 import (
+	"fmt"
 	"github.com/astaxie/beego/orm"
 )
 
 //标签表
 type Tag struct {
 	Id    int64
-	Name  string
+	Name  string `orm:"size(20);index"`
 	Count int64
 }
 
@@ -37,4 +38,8 @@ func (m *Tag) Delete() error {
 		return err
 	}
 	return nil
+}
+
+func (m *Tag) Link() string {
+	return fmt.Sprintf("<a class=\"category\" href=\"/category/%s\">%s</a>", Rawurlencode(m.Name), m.Name)
 }

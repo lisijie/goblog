@@ -1,5 +1,8 @@
 <fieldset>
 	<legend>个人资料</legend>
+	{{if .updated}}
+	<div class="alert alert-success">修改成功！</div>
+	{{end}}
 	<form class="form-horizontal" method="post">
 	<table class="table table-form">
 		<tbody>

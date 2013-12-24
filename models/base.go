@@ -7,7 +7,6 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	"html/template"
 	"math"
 	"net/url"
 	"strings"
@@ -103,14 +102,22 @@ func Pager(page int64, totalnum int64, pagesize int64, url string) string {
 }
 
 //文章标签转换为带链接的模版html
-func Tags2html(tags string) template.HTML {
+func Tags2html(tags string) string {
+	if tags == "" {
+		return ""
+	}
 	var buf bytes.Buffer
 	arr := strings.Split(tags, ",")
 	for k, v := range arr {
 		if k > 0 {
 			buf.WriteString(", ")
 		}
-		buf.WriteString(fmt.Sprintf("<a class=\"category\" href=\"/category/%s\">%s</a>", url.QueryEscape(v), v))
+		tag := Tag{Name: v}
+		buf.WriteString(tag.Link())
 	}
-	return template.HTML(buf.String())
+	return buf.String()
+}
+
+func Rawurlencode(str string) string {
+	return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
 }

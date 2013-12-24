@@ -1,0 +1,41 @@
+<fieldset>
+	<legend>用户列表</legend>
+
+	<table class="table table-hover table-list">
+		<thead>
+		<tr>
+			<th width="30">ID</th>
+			<th>用户名</th>
+			<th width="150">邮箱</th>
+			<th width="150">最后登录</th>
+			<th width="150">登录IP</th>
+			<th width="80">登录次数</th>
+			<th width="80">激活状态</th>
+			<th width="60">操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		{{range $k, $v := .list}}
+			<tr>
+				<td>{{$v.Id}}</td>
+				<td>{{$v.Username}}</td>
+				<td>{{$v.Email}}</td>
+				<td>{{date $v.Lastlogin "Y-m-d H:i:s"}}</td>
+				<td>{{$v.Lastip}}</td>
+				<td>{{$v.Logincount}}</td>
+				<td><span class="text-success">已激活</span></td>
+				<td>
+				<a href="/admin/user/edit?id={{$v.Id}}">编辑</a> | 
+				<a href="/admin/user/delete?id={{$v.Id}}" onclick="return del_confirm()">删除</a>
+				</td>
+			</tr>
+		{{end}}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="20">{{.pagebar}}</td>
+			</tr>
+		</tfoot>
+	</table>
+
+</fieldset>

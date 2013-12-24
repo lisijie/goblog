@@ -9,6 +9,7 @@ type SystemController struct {
 	baseController
 }
 
+//系统设置
 func (this *SystemController) Setting() {
 	var result []*models.Option
 	o := orm.NewOrm()

@@ -4,15 +4,40 @@
 	<table class="table table-list">
 		<tbody>
 			<tr>
-				<th colspan="2" class="title">信息统计</th>
+				<th colspan="2" class="title">系统环境</th>
+			</tr>
+			<tr>
+				<td width="250">程序版本：</td>
+				<td>{{.version}}</td>
+			</tr>
+			<tr>
+				<td>主机名称：</td>
+				<td>{{.hostname}}</td>
+			</tr>
+			<tr>
+				<td>Go语言版本：</td>
+				<td>{{.gover}}</td>
+			</tr>
+			<tr>
+				<td>编译环境：</td>
+				<td>操作系统：{{.os}} ({{.arch}})，CPU数量：{{.cpunum}}</td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<th colspan="2" class="title">数据统计</th>
 			</tr>
 			<tr>
 				<td width="250">文章数量：</td>
-				<td>xx</td>
+				<td>{{.postnum}}</td>
 			</tr>
 			<tr>
 				<td>分类数量：</td>
-				<td>xx</td>
+				<td>{{.tagnum}}</td>
+			</tr>
+			<tr>
+				<td>用户数量：</td>
+				<td>{{.usernum}}</td>
 			</tr>
 		</tbody>
 	</table>

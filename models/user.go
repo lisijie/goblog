@@ -10,10 +10,12 @@ type User struct {
 	Id         int64
 	Username   string    `orm:"unique;size(15)"`
 	Password   string    `orm:"size(32)"`
+	Email      string    `orm:"size(50)"`
 	Lastlogin  time.Time `orm:"auto_now_add;type(datetime)"`
 	Logincount int64
-	Lastip     string
+	Lastip     string `orm:"size(32)"`
 	Authkey    string `orm:"size(10)"`
+	Active     int8
 }
 
 func (m *User) Insert() error {
