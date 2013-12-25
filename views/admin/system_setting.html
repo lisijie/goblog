@@ -10,45 +10,83 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="span2">网站URL</th>
+				<th>网站URL</th>
 				<td>
 					<input name="siteurl" value="{{.options.siteurl}}" class="input-xlarge" title="网站URL" type="text" />
 				</td>
 			</tr>
 			<tr>
-				<th class="span2">副标题</th>
+				<th>副标题</th>
 				<td>
 					<input name="subtitle" value="{{.options.subtitle}}" class="input-xlarge" title="副标题" type="text" />
 				</td>
 			</tr>
 			<tr>
-				<th class="span2">邮箱</th>
+				<th>邮箱</th>
 				<td>
 					<input name="email" value="{{.options.email}}" class="input-xlarge" title="联系邮箱" type="text" />
 				</td>
 			</tr>
 			<tr>
-				<th class="span2">列表每页数量</th>
+				<th>列表每页数量</th>
 				<td>
 					<input name="pagesize" value="{{.options.pagesize}}" class="input" title="内容列表每页数量" type="text" />
 				</td>
 			</tr>
 			<tr>
-				<th class="span2">网站关键字</th>
+				<th>网站关键字</th>
 				<td>
 					<input name="keywords" value="{{.options.keywords}}" class="span5" title="网站关键字" type="text" />
 				</td>
 			</tr>
 				<tr>
-				<th class="span2">网站描述</th>
+				<th>网站描述</th>
 				<td>
 					<textarea name="description" rows="4" class="span5" title="网站描述" >{{.options.description}}</textarea>
 				</td>
 			</tr>
 			<tr>
-				<th class="span2">主题模板</th>
+				<th>主题模板</th>
 				<td>
 					<input name="theme" value="{{.options.theme}}" class="input" title="主题模板" type="text" />
+				</td>
+			</tr>
+			<tr>
+				<th>时区设置</th>
+				<td>
+					<select name="timezone">
+					<option value="-12" {{if eq .options.timezone "-12"}}selected{{end}}>(标准时-12:00) 日界线西</option>
+					<option value="-11" {{if eq .options.timezone "-11"}}selected{{end}}>(标准时-11:00) 中途岛、萨摩亚群岛</option>
+					<option value="-10" {{if eq .options.timezone "-10"}}selected{{end}}>(标准时-10:00) 夏威夷</option>
+					<option value="-9" {{if eq .options.timezone "-9"}}selected{{end}}>(标准时-9:00) 阿拉斯加</option>
+					<option value="-8" {{if eq .options.timezone "-8"}}selected{{end}}>(标准时-8:00) 太平洋时间(美国和加拿大)</option>
+					<option value="-7" {{if eq .options.timezone "-7"}}selected{{end}}>(标准时-7:00) 山地时间(美国和加拿大)</option>
+					<option value="-6" {{if eq .options.timezone "-6"}}selected{{end}}>(标准时-6:00) 中部时间(美国和加拿大)、墨西哥城</option>
+					<option value="-5" {{if eq .options.timezone "-5"}}selected{{end}}>(标准时-5:00) 东部时间(美国和加拿大)、波哥大</option>
+					<option value="-4" {{if eq .options.timezone "-4"}}selected{{end}}>(标准时-4:00) 大西洋时间(加拿大)、加拉加斯</option>
+					<option value="-3.5" {{if eq .options.timezone "-3.5"}}selected{{end}}>(标准时-3:30) 纽芬兰</option>
+					<option value="-3" {{if eq .options.timezone "-3"}}selected{{end}}>(标准时-3:00) 巴西、布宜诺斯艾利斯、乔治敦</option>
+					<option value="-2" {{if eq .options.timezone "-2"}}selected{{end}}>(标准时-2:00) 中大西洋</option>
+					<option value="-1" {{if eq .options.timezone "-1"}}selected{{end}}>(标准时-1:00) 亚速尔群岛、佛得角群岛</option>
+					<option value="0" {{if eq .options.timezone "0"}}selected{{end}}>(格林尼治标准时) 西欧时间、伦敦、卡萨布兰卡</option>
+					<option value="1" {{if eq .options.timezone "1"}}selected{{end}}>(标准时+1:00) 中欧时间、安哥拉、利比亚</option>
+					<option value="2" {{if eq .options.timezone "2"}}selected{{end}}>(标准时+2:00) 东欧时间、开罗，雅典</option>
+					<option value="3" {{if eq .options.timezone "3"}}selected{{end}}>(标准时+3:00) 巴格达、科威特、莫斯科</option>
+					<option value="3.5" {{if eq .options.timezone "3.5"}}selected{{end}}>(标准时+3:30) 德黑兰</option>
+					<option value="4" {{if eq .options.timezone "4"}}selected{{end}}>(标准时+4:00) 阿布扎比、马斯喀特、巴库</option>
+					<option value="4.5" {{if eq .options.timezone "4.5"}}selected{{end}}>(标准时+4:30) 喀布尔</option>
+					<option value="5" {{if eq .options.timezone "5"}}selected{{end}}>(标准时+5:00) 叶卡捷琳堡、伊斯兰堡、卡拉奇</option>
+					<option value="5.5" {{if eq .options.timezone "5.5"}}selected{{end}}>(标准时+5:30) 孟买、加尔各答、新德里</option>
+					<option value="6" {{if eq .options.timezone "6"}}selected{{end}}>(标准时+6:00) 阿拉木图、 达卡、新亚伯利亚</option>
+					<option value="7" {{if eq .options.timezone "7"}}selected{{end}}>(标准时+7:00) 曼谷、河内、雅加达</option>
+					<option value="8" {{if eq .options.timezone "8"}}selected{{end}}>(北京时间) 北京、重庆、香港、新加坡</option>
+					<option value="9" {{if eq .options.timezone "9"}}selected{{end}}>(标准时+9:00) 东京、汉城、大阪、雅库茨克</option>
+					<option value="9.5" {{if eq .options.timezone "9.5"}}selected{{end}}>(标准时+9:30) 阿德莱德、达尔文</option>
+					<option value="10" {{if eq .options.timezone "10"}}selected{{end}}>(标准时+10:00) 悉尼、关岛</option>
+					<option value="11" {{if eq .options.timezone "11"}}selected{{end}}>(标准时+11:00) 马加丹、索罗门群岛</option>
+					<option value="12" {{if eq .options.timezone "12"}}selected{{end}}>(标准时+12:00) 奥克兰、惠灵顿、堪察加半岛</option>
+					</select>
+					<span>当前UTC时间：{{date .now "Y-m-d H:i:s"}}</span>
 				</td>
 			</tr>
 		</tbody>

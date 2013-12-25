@@ -5,6 +5,7 @@ import (
 	"github.com/lisijie/goblog/models"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type baseController struct {
@@ -88,4 +89,14 @@ func (this *baseController) checkPermission() {
 	if this.userid != 1 && this.controllerName == "user" {
 		this.showmsg("抱歉，只有超级管理员才能进行该操作！")
 	}
+}
+
+func (this *baseController) getTime() time.Time {
+	options := models.GetOptions()
+	timezone := float64(0)
+	if v, ok := options["timezone"]; ok {
+		timezone, _ = strconv.ParseFloat(v, 64)
+	}
+	add := timezone * float64(time.Hour)
+	return time.Now().UTC().Add(time.Duration(add))
 }

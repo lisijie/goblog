@@ -6,7 +6,6 @@ import (
 	"github.com/lisijie/goblog/models"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type ArticleController struct {
@@ -103,7 +102,7 @@ func (this *ArticleController) Save() {
 	if id < 1 {
 		post.Userid = this.userid
 		post.Author = this.username
-		post.Posttime = time.Now()
+		post.Posttime = this.getTime()
 		post.Insert()
 	} else {
 		post.Id = id
@@ -142,6 +141,7 @@ func (this *ArticleController) Save() {
 	post.Content = content
 	post.Urlname = urlname
 	post.Urltype = urltype
+	post.Updated = this.getTime()
 	post.Update()
 
 RD:

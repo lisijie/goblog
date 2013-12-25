@@ -19,10 +19,10 @@ type Post struct {
 	Excerpt  string    `orm:"type(text)"`
 	Content  string    `orm:"type(text)"`
 	Tags     string    `orm:"size(100)"`
-	Posttime time.Time `orm:"auto_now_add;type(datetime);index"`
+	Posttime time.Time `orm:"type(datetime);index"`
 	Views    int64
 	Status   int8
-	Updated  time.Time `orm:"auto_now;type(datetime)"`
+	Updated  time.Time `orm:"type(datetime)"`
 	Istop    int8
 }
 

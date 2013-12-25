@@ -24,7 +24,7 @@ func (this *SystemController) Setting() {
 
 	if this.Ctx.Request.Method == "POST" {
 		o := orm.NewOrm()
-		keys := []string{"sitename", "siteurl", "subtitle", "pagesize", "keywords", "description", "email", "theme"}
+		keys := []string{"sitename", "siteurl", "subtitle", "pagesize", "keywords", "description", "email", "theme", "timezone"}
 		for _, key := range keys {
 			val := this.GetString(key)
 			if _, ok := mp[key]; !ok {
@@ -43,6 +43,7 @@ func (this *SystemController) Setting() {
 		this.Redirect("/admin/system/setting", 302)
 	}
 
+	this.Data["now"] = this.getTime()
 	this.Data["options"] = options
 	this.display()
 }
