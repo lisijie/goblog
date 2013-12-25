@@ -151,19 +151,10 @@ RD:
 //删除
 func (this *ArticleController) Delete() {
 	id, _ := this.GetInt("id")
-	o := orm.NewOrm()
 	post := models.Post{Id: id}
 	if post.Read() == nil {
-		if post.Tags != "" {
-			oldtags := strings.Split(post.Tags, ",")
-			//标签统计-1
-			o.QueryTable(&models.Tag{}).Filter("name__in", oldtags).Update(orm.Params{"count": orm.ColValue(orm.Col_Minus, 1)})
-			//删掉tag_post表的记录
-			o.QueryTable(&models.TagPost{}).Filter("postid", post.Id).Delete()
-		}
 		post.Delete()
 	}
-
 	this.Redirect("/admin/article/list", 302)
 }
 
@@ -189,7 +180,9 @@ func (this *ArticleController) Batch() {
 	case "delete": //批量删除
 		for _, id := range idarr {
 			post := models.Post{Id: id}
-			post.Delete()
+			if post.Read() == nil {
+				post.Delete()
+			}
 		}
 	}
 

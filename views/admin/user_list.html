@@ -23,7 +23,13 @@
 				<td>{{date $v.Lastlogin "Y-m-d H:i:s"}}</td>
 				<td>{{$v.Lastip}}</td>
 				<td>{{$v.Logincount}}</td>
-				<td><span class="text-success">已激活</span></td>
+				<td>
+					{{if eq $v.Active 1}}
+					<span class="text-success">已激活</span>
+					{{else}}
+					<span class="text-error">未激活</span>
+					{{end}}
+				</td>
 				<td>
 				<a href="/admin/user/edit?id={{$v.Id}}">编辑</a> | 
 				<a href="/admin/user/delete?id={{$v.Id}}" onclick="return del_confirm()">删除</a>

@@ -8,7 +8,7 @@
 		<div class="tags">{{str2html $v.TagsLink}}</div>
 	</div>
 	<h1 class="title" itemprop="name">
-	<a href="/article/{{$v.Id}}" itemprop="url">{{$v.Title}}</a>
+	<a href="/article/{{$v.Id}}" itemprop="url">{{str2html $v.ColorTitle}}</a>
 	</h1>
 	<div class="entry-content" itemprop="articleBody">
 	{{str2html $v.Content}}

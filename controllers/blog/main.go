@@ -52,6 +52,9 @@ func (this *MainController) Show() {
 		this.Abort("404")
 	}
 
+	post.Views++
+	post.Update("Views")
+
 	this.Data["post"] = post
 	this.display("article")
 }
