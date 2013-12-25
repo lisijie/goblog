@@ -4,7 +4,6 @@ import (
 	"github.com/lisijie/goblog/models"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type AccountController struct {
@@ -27,7 +26,7 @@ func (this *AccountController) Login() {
 			} else {
 				user.Logincount += 1
 				user.Lastip = this.getClientIp()
-				user.Lastlogin = time.Now()
+				user.Lastlogin = this.getTime()
 				user.Update()
 				authkey := models.Md5([]byte(this.getClientIp() + "|" + user.Password))
 				if remember == "yes" {
