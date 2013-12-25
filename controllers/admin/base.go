@@ -22,6 +22,7 @@ func (this *baseController) Prepare() {
 	this.controllerName = strings.ToLower(controllerName[0 : len(controllerName)-10])
 	this.actionName = strings.ToLower(actionName)
 	this.auth()
+	this.checkPermission()
 }
 
 //登录状态验证
@@ -67,6 +68,8 @@ func (this *baseController) showmsg(msg ...string) {
 	this.Data["redirect"] = msg[1]
 	this.Layout = this.moduleName + "/layout.html"
 	this.TplNames = this.moduleName + "/" + "showmsg.html"
+	this.Render()
+	this.StopRun()
 }
 
 //是否post提交
@@ -78,4 +81,11 @@ func (this *baseController) isPost() bool {
 func (this *baseController) getClientIp() string {
 	s := strings.Split(this.Ctx.Request.RemoteAddr, ":")
 	return s[0]
+}
+
+//权限验证
+func (this *baseController) checkPermission() {
+	if this.userid != 1 && this.controllerName == "user" {
+		this.showmsg("抱歉，只有超级管理员才能进行该操作！")
+	}
 }

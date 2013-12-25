@@ -48,7 +48,6 @@ func (this *AccountController) Profile() {
 	user := models.User{Id: this.userid}
 	if err := user.Read(); err != nil {
 		this.showmsg(err.Error())
-		return
 	}
 	if this.Ctx.Request.Method == "POST" {
 		errmsg := make(map[string]string)

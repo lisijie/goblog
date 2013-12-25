@@ -3,6 +3,8 @@
 
 基于Go语言和beego框架的简易博客系统
 
+开发中，数据表结构随时可能调整...
+
 演示地址：
 [http://www.ptapp.cn/](http://www.ptapp.cn/)
 
