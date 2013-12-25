@@ -1,5 +1,4 @@
 #GoBlog 
----
 
 基于Go语言和beego框架的简易博客系统
 
@@ -36,7 +35,7 @@
 
 导入MySQL
 
-	$ mysql -u username -p < goblog.sql
+	$ mysql -u username -p -D goblog < goblog.sql
 
 运行
 	
@@ -45,5 +44,14 @@
 	$ nohup ./goblog 2>&1 > goblog.log &
 	设为后台运行
 
-访问： http://localhost:8080
+访问： 
+
+http://localhost:8080
+
+后台地址：
+
+http://localhost:8080/admin
+
+帐号：admin
+密码：admin888
 

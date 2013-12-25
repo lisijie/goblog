@@ -16,6 +16,7 @@ func (this *AccountController) Login() {
 	if this.GetString("dosubmit") == "yes" {
 		account := this.GetString("account")
 		password := this.GetString("password")
+		remember := this.GetString("remember")
 		if account != "" && password != "" {
 			var user models.User
 			user.Username = account
@@ -29,7 +30,12 @@ func (this *AccountController) Login() {
 				user.Lastlogin = time.Now()
 				user.Update()
 				authkey := models.Md5([]byte(this.getClientIp() + "|" + user.Password))
-				this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey)
+				if remember == "yes" {
+					this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey, 7*86400)
+				} else {
+					this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey)
+				}
+
 				this.Redirect("/admin", 302)
 			}
 		}
