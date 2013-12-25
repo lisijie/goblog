@@ -1,9 +1,20 @@
 <fieldset>
 	<legend>文章列表</legend>
-	<form method="post" name="p">
+
+	<div class="toolbar">
+		<a href="/admin/article/list?status=0" {{if eq .status 0}}class="active"{{end}}>已发布</a>
+		<span class="divider">|</span>
+		<a href="/admin/article/list?status=1" {{if eq .status 1}}class="active"{{end}}>草稿箱({{.count_1}})</a>
+		<span class="divider">|</span>
+		<a href="/admin/article/list?status=2" {{if eq .status 2}}class="active"{{end}}>回收站({{.count_2}})</a>
+	</div>
+
+
+	<form method="post" name="p" action="/admin/article/batch">
 	<table class="table table-list">
 		<thead>
 			<tr>
+				<th width="30"><input type="checkbox" name="all" value="0" onclick="checkall('ids[]', this)" /></th>
 				<th width="50">ID</th>
 				<th>标题</th>
 				<th width="150">类别</th>
@@ -16,8 +27,13 @@
 		<tbody>
 		{{range $k, $v := .list}}
 		<tr>
+			<td><input type="checkbox" name="ids[]" value="{{$v.Id}}" /></td>
 			<td>{{$v.Id}}</td>
-			<td><a href="{{$v.Link}}" target="_blank">{{$v.Title}}</a></td>
+			<td>
+				{{if $v.Istop}}
+				<span style="color:#c00">[置顶]</span>
+				{{end}}
+				<a href="{{$v.Link}}" target="_blank">{{str2html $v.ColorTitle}}</a></td>
 			<td>{{str2html $v.TagsLink}}</td>
 			<td>{{$v.Views}}</td>
 			<td>{{$v.Author}}</td>
@@ -29,6 +45,18 @@
 		<tfoot>
 			<tr>
 				<td colspan="20">{{str2html .pagebar}}</td>
+			</tr>
+			<tr>
+				<td colspan="20">
+					<select name="op" id="op">
+					<option value="">批量操作</option>
+					<option value="topub" >移至已发布</option>
+					<option value="todrafts" >移至草稿箱</option>
+					<option value="totrash" >移至回收站</option>
+					<option value="delete" >删除</option>
+					</select>
+					<button type="submit" class="btn btn-small">应用</button>
+				</td>
 			</tr>
 		</tfoot>
 	</table>

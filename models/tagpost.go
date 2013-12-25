@@ -2,13 +2,16 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"time"
 )
 
 //标签内容关系表
 type TagPost struct {
-	Id     int64
-	Tagid  int64 `orm:"index"`
-	Postid int64
+	Id         int64
+	Tagid      int64 `orm:"index"`
+	Postid     int64
+	Poststatus int8
+	Posttime   time.Time
 }
 
 func (m *TagPost) Insert() error {

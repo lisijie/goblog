@@ -4,6 +4,7 @@ body {background:#fff;}
 a {color:#2277AA;}
 a:hover {color:#DC6C31; text-decoration:none;}
 ul {list-style:none;}
+select {font-size: 12px; margin: 0;}
 
 .header {
 	background:#464646 url('../img/top-bg.png') repeat-x;
@@ -50,4 +51,8 @@ ul {list-style:none;}
 .search-form {border:1px solid #FBEED5; background:#FCF8E3; padding:5px; margin:5px 0}
 .search-form form {margin:0}
 
-.guestbook-reply {background:#FFFFEE; border:1px solid #ccc; padding:0 10px; color:#666;}
+.toolbar {margin-bottom:10px;font-size:12px}
+.toolbar a {line-height:35px;}
+.toolbar a:hover {text-decoration:none;}
+.toolbar .active {background:#498CD0; color:#fff; padding:3px 10px; -moz-border-radius: 2px;-webkit-border-radius: 2px;-khtml-border-radius: 2px;border-radius: 2px; }
+.toolbar .divider {color:#ccc; margin:0 5px}

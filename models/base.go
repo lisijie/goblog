@@ -1,13 +1,11 @@
 package models
 
 import (
-	"bytes"
 	"crypto/md5"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	"math"
 	"net/url"
 	"strings"
 )
@@ -42,63 +40,6 @@ func Md5(buf []byte) string {
 	hash := md5.New()
 	hash.Write(buf)
 	return fmt.Sprintf("%x", hash.Sum(nil))
-}
-
-func Pager(page int64, totalnum int64, pagesize int64, url string) string {
-	var buf bytes.Buffer
-	var from, to, linknum, offset, totalpage int64
-
-	offset = 5
-	linknum = 10
-	if totalnum > pagesize {
-		totalpage = int64(math.Ceil(float64(totalnum / pagesize)))
-		if totalpage < linknum {
-			from = 1
-			to = totalpage
-		} else {
-			from = page - offset
-			to = from + linknum
-			if from < 1 {
-				from = 1
-				to = from + linknum - 1
-			} else if to > totalpage {
-				to = totalpage
-				from = totalpage - linknum + 1
-			}
-		}
-
-		buf.WriteString("<div class=\"pagination\"><ul>")
-		if page > 1 {
-			buf.WriteString(fmt.Sprintf("<li><a href=\"%s/page/%d\">&laquo;</a></li>", url, page-1))
-		} else {
-			buf.WriteString("<li class=\"disabled\"><span>&laquo;</span></li>")
-		}
-
-		if page > linknum {
-			buf.WriteString(fmt.Sprintf("<li><a href=\"%s/page/1\">1...</a></li>", url))
-		}
-
-		for i := from; i <= to; i++ {
-			if i == page {
-				buf.WriteString(fmt.Sprintf("<li class=\"active\"><span>%d</span></li>", i))
-			} else {
-				buf.WriteString(fmt.Sprintf("<li><a href=\"%s/page/%d\">%d</a></li>", url, i, i))
-			}
-		}
-
-		if totalpage > to {
-			buf.WriteString(fmt.Sprintf("<li><a href=\"%s/page/%d\">...%d</a></li>", url, totalpage, totalpage))
-		}
-
-		if page < totalpage {
-			buf.WriteString(fmt.Sprintf("<li><a href=\"%s/page/%d\">&raquo;</a></li>", url, page+1))
-		} else {
-			buf.WriteString(fmt.Sprintf("<li class=\"disabled\"><span>&raquo;</span></li>"))
-		}
-		buf.WriteString("</ul></div>")
-	}
-
-	return buf.String()
 }
 
 func Rawurlencode(str string) string {

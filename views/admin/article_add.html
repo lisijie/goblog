@@ -5,15 +5,37 @@
 		<tbody>
 			<tr>
 				<th width="60">标题</th>
-				<td><input type="text" name="title" class="span6" /></td>
+				<td>
+					<input type="text" name="title" class="span6" />
+					<input name="color" value="" type="hidden" />
+					<img src="/static/themes/admin/img/colorpicker.png" id="colorpicker" style="cursor:pointer;margin:0 10px 10px 5px;" />
+					<span><label class="help-inline"><input type="checkbox" value="1" name="istop" /> 置顶文章</label></span>
+				</td>
 			</tr>
 			<tr>
-				<th>类别</th>
+				<th>分类标签</th>
 				<td><input type="text" name="tags" class="span3" /> <span>多个用英文逗号","分隔</span></td>
 			</tr>
 			<tr>
 				<th>URL名称</th>
-				<td><input type="text" name="urlname" class="span3" /> <span>设置了URL名称可直接通过 http://domain/urlname 访问</span></td>
+				<td>
+					<input type="text" name="urlname" class="span3" />
+					<span>
+					访问形式
+					<label class="help-inline"><input type="radio" name="urltype" value="1" checked /> http://domain/<b>urlname</b></label>
+					<label class="help-inline"><input type="radio" name="urltype" value="2" /> http://domain/article/<b>urlname</b></label>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th>保存到</th>
+				<td>
+					<select name="status">
+						<option value="0">已发布</option>
+						<option value="1">草稿箱</option>
+						<option value="2">回收站</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<th>内容</th>
@@ -42,3 +64,20 @@
 	</form>
 
 </fieldset>
+
+<script src="/static/themes/admin/js/jquery.colorpicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#colorpicker").colorpicker({
+			fillcolor:true,
+			success:function(o,color){
+				$("input[name='title']").css("color",color);
+				$("input[name='color']").val(color);
+			},
+			reset:function(o) {
+				$("input[name='title']").css("color","");
+				$("input[name='color']").val("");
+			}
+		});
+	});
+</script>

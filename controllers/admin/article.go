@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/astaxie/beego/orm"
 	"github.com/lisijie/goblog/models"
 	"strconv"
@@ -14,6 +15,7 @@ type ArticleController struct {
 
 //管理
 func (this *ArticleController) List() {
+	status, _ := this.GetInt("status")
 	page, _ := strconv.ParseInt(this.Ctx.Input.Param(":page"), 10, 0)
 	if page < 1 {
 		page = 1
@@ -24,14 +26,17 @@ func (this *ArticleController) List() {
 	var list []*models.Post
 	var post models.Post
 	o := orm.NewOrm()
-	count, _ := o.QueryTable(&post).Count()
+	count, _ := o.QueryTable(&post).Filter("status", status).Count()
 	if count > 0 {
-		o.QueryTable(&post).OrderBy("-id").Limit(pagesize, offset).All(&list)
+		o.QueryTable(&post).Filter("status", status).OrderBy("-istop", "-posttime").Limit(pagesize, offset).All(&list)
 	}
 
+	this.Data["count_1"], _ = o.QueryTable(&post).Filter("status", 1).Count()
+	this.Data["count_2"], _ = o.QueryTable(&post).Filter("status", 2).Count()
+	this.Data["status"] = status
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.Pager(page, count, pagesize, "/admin/article/list")
+	this.Data["pagebar"] = models.NewPager(page, count, pagesize, fmt.Sprintf("/admin/article/list?status=%d", status)).ToString()
 	this.display()
 }
 
@@ -60,6 +65,19 @@ func (this *ArticleController) Save() {
 	content := this.GetString("content")
 	tags := this.GetString("tags")
 	urlname := this.GetString("urlname")
+	color := this.GetString("color")
+	status, _ := this.GetInt("status")
+	var istop int8 = 0
+	var urltype int8 = 1
+	if this.GetString("istop") == "1" {
+		istop = 1
+	}
+	if this.GetString("urltype") == "2" {
+		urltype = 2
+	}
+	if status != 1 && status != 2 {
+		status = 0
+	}
 
 	addtags := make([]string, 0)
 	//标签过滤
@@ -86,18 +104,12 @@ func (this *ArticleController) Save() {
 		post.Userid = this.userid
 		post.Author = this.username
 		post.Posttime = time.Now()
-		post.Title = title
-		post.Content = content
-		post.Urlname = urlname
 		post.Insert()
 	} else {
 		post.Id = id
 		if post.Read() != nil {
 			goto RD
 		}
-		post.Title = title
-		post.Content = content
-		post.Urlname = urlname
 		if post.Tags != "" {
 			oldtags := strings.Split(post.Tags, ",")
 			//标签统计-1
@@ -117,11 +129,19 @@ func (this *ArticleController) Save() {
 				tag.Count += 1
 				tag.Update("Count")
 			}
-			tp := models.TagPost{Tagid: tag.Id, Postid: post.Id}
+			tp := models.TagPost{Tagid: tag.Id, Postid: post.Id, Poststatus: int8(status), Posttime: post.Posttime}
 			tp.Insert()
 		}
 		post.Tags = strings.Join(addtags, ",")
 	}
+
+	post.Status = int8(status)
+	post.Title = title
+	post.Color = color
+	post.Istop = istop
+	post.Content = content
+	post.Urlname = urlname
+	post.Urltype = urltype
 	post.Update()
 
 RD:
@@ -145,4 +165,33 @@ func (this *ArticleController) Delete() {
 	}
 
 	this.Redirect("/admin/article/list", 302)
+}
+
+//批处理
+func (this *ArticleController) Batch() {
+	ids := this.GetStrings("ids[]")
+	op := this.GetString("op")
+
+	idarr := make([]int64, 0)
+	for _, v := range ids {
+		if id, _ := strconv.Atoi(v); id > 0 {
+			idarr = append(idarr, int64(id))
+		}
+	}
+
+	switch op {
+	case "topub": //移到已发布
+		orm.NewOrm().QueryTable(&models.Post{}).Filter("id__in", idarr).Update(orm.Params{"status": 0})
+	case "todrafts": //移到草稿箱
+		orm.NewOrm().QueryTable(&models.Post{}).Filter("id__in", idarr).Update(orm.Params{"status": 1})
+	case "totrash": //移到回收站
+		orm.NewOrm().QueryTable(&models.Post{}).Filter("id__in", idarr).Update(orm.Params{"status": 2})
+	case "delete": //批量删除
+		for _, id := range idarr {
+			post := models.Post{Id: id}
+			post.Delete()
+		}
+	}
+
+	this.Redirect(this.Ctx.Request.Referer(), 302)
 }

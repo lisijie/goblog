@@ -31,7 +31,7 @@ func (this *UserController) List() {
 
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.Pager(page, count, pagesize, "/admin/user/list")
+	this.Data["pagebar"] = models.NewPager(page, count, pagesize, "/admin/user/list").ToString()
 	this.display()
 }
 

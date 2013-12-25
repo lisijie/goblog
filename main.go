@@ -18,6 +18,7 @@ func main() {
 
 	//前台路由
 	beego.Router("/", &blog.MainController{}, "*:Index")
+	beego.Router("/:urlname([^/]+)", &blog.MainController{}, "*:Show") //别名访问
 	beego.Router("/page/:id:int", &blog.MainController{}, "*:Index")
 	beego.Router("/article/:id:int", &blog.MainController{}, "*:Show")         //ID访问
 	beego.Router("/article/:urlname([^/]+)", &blog.MainController{}, "*:Show") //别名访问
@@ -40,6 +41,7 @@ func main() {
 	beego.Router("/admin/article/edit", &admin.ArticleController{}, "*:Edit")
 	beego.Router("/admin/article/save", &admin.ArticleController{}, "post:Save")
 	beego.Router("/admin/article/delete", &admin.ArticleController{}, "*:Delete")
+	beego.Router("/admin/article/batch", &admin.ArticleController{}, "*:Batch")
 	//用户管理
 	beego.Router("/admin/user/list", &admin.UserController{}, "*:List")
 	beego.Router("/admin/user/list/page/:id:int", &admin.UserController{}, "*:List")
