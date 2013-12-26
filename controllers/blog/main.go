@@ -5,6 +5,7 @@ import (
 	"github.com/lisijie/goblog/models"
 	"net/url"
 	"strconv"
+	"strings"
 )
 
 type MainController struct {
@@ -20,7 +21,7 @@ func (this *MainController) Index() {
 		err      error
 	)
 
-	if pagesize, err = strconv.Atoi(this.options["pagesize"]); err != nil || pagesize < 1 {
+	if pagesize, err = strconv.Atoi(this.getOption("pagesize")); err != nil || pagesize < 1 {
 		pagesize = 10
 	}
 
@@ -28,7 +29,7 @@ func (this *MainController) Index() {
 	o.QueryTable(&post).Filter("status", 0).OrderBy("-istop", "-posttime").Limit(pagesize).All(&list)
 
 	this.Data["list"] = list
-
+	this.setHeadMetas()
 	this.display("index")
 }
 
@@ -56,6 +57,7 @@ func (this *MainController) Show() {
 	post.Update("Views")
 
 	this.Data["post"] = post
+	this.setHeadMetas(post.Title, strings.Trim(post.Tags, ","), post.Title)
 	this.display("article")
 }
 
@@ -73,7 +75,7 @@ func (this *MainController) Archives() {
 		page = 1
 	}
 
-	if pagesize, err = strconv.Atoi(this.options["pagesize"]); err != nil || pagesize < 1 {
+	if pagesize, err = strconv.Atoi(this.getOption("pagesize")); err != nil || pagesize < 1 {
 		pagesize = 20
 	} else {
 		pagesize *= 2
@@ -100,6 +102,7 @@ func (this *MainController) Archives() {
 	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), "/archives").ToString()
 	this.Data["result"] = result
 
+	this.setHeadMetas("归档")
 	this.display("archives")
 }
 
@@ -117,7 +120,7 @@ func (this *MainController) Category() {
 	if page, err = strconv.Atoi(this.Ctx.Input.Param(":page")); err != nil || page < 1 {
 		page = 1
 	}
-	if pagesize, err = strconv.Atoi(this.options["pagesize"]); err != nil || pagesize < 1 {
+	if pagesize, err = strconv.Atoi(this.getOption("pagesize")); err != nil || pagesize < 1 {
 		pagesize = 20
 	} else {
 		pagesize *= 2
@@ -161,5 +164,6 @@ func (this *MainController) Category() {
 	this.Data["result"] = result
 	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), "/category/"+url.QueryEscape(tag.Name)).ToString()
 
+	this.setHeadMetas(tag.Name, tag.Name, tag.Name)
 	this.display("category")
 }
