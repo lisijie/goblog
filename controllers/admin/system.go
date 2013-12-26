@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"github.com/astaxie/beego/orm"
 	"github.com/lisijie/goblog/models"
 )
 
@@ -12,8 +11,7 @@ type SystemController struct {
 //系统设置
 func (this *SystemController) Setting() {
 	var result []*models.Option
-	o := orm.NewOrm()
-	o.QueryTable(&models.Option{}).All(&result)
+	new(models.Option).Query().All(&result)
 
 	options := make(map[string]string)
 	mp := make(map[string]*models.Option)
@@ -23,7 +21,6 @@ func (this *SystemController) Setting() {
 	}
 
 	if this.Ctx.Request.Method == "POST" {
-		o := orm.NewOrm()
 		keys := []string{"sitename", "siteurl", "subtitle", "pagesize", "keywords", "description", "email", "theme", "timezone"}
 		for _, key := range keys {
 			val := this.GetString(key)
@@ -32,22 +29,17 @@ func (this *SystemController) Setting() {
 				option.Name = key
 				option.Value = val
 				options[key] = val
-				o.Insert(option)
+				option.Insert()
 			} else {
 				option := mp[key]
 				option.Value = val
-				o.Update(option, "Value")
+				option.Update("Value")
 			}
 		}
-		models.Cache.Delete("options")
 		this.Redirect("/admin/system/setting", 302)
 	}
 
 	this.Data["now"] = this.getTime()
 	this.Data["options"] = options
 	this.display()
-}
-
-func (this *SystemController) Stat() {
-
 }

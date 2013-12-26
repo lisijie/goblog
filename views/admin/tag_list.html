@@ -1,0 +1,63 @@
+<fieldset>
+	<legend>标签管理</legend>
+
+	<form method="post" name="p" action="/admin/tag?act=batch">
+	<table class="table table-hover table-list">
+		<thead>
+		<tr>
+			<th width="30"><input type="checkbox" name="all" value="0" onclick="checkall('ids[]', this)" /></th>
+			<th width="30">ID</th>
+			<th>标签名称</th>
+			<th width="150">内容数</th>
+			<th width="60">操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		{{range $k, $v := .list}}
+			<tr>
+				<td><input type="checkbox" name="ids[]" value="{{$v.Id}}" /></td>
+				<td>{{$v.Id}}</td>
+				<td>{{$v.Name}}</td>
+				<td>{{$v.Count}}</td>
+				<td>
+				<a href="/admin/tag?act=edit&id={{$v.Id}}">编辑</a>
+				</td>
+			</tr>
+		{{end}}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="20">{{str2html .pagebar}}</td>
+			</tr>
+			<tr>
+				<td width="30"><input type="checkbox" name="all" value="0" onclick="checkall('ids[]', this)" /></td>
+				<td colspan="20">
+					<select name="op" id="op">
+						<option value="">批量操作</option>
+						<option value="upcount" >更新统计</option>
+						<option value="merge" >合并到</option>
+						<option value="delete" >删除</option>
+					</select>
+					<span id="mergeto" style="display:none;">
+					<input type="text" name="toname" class="span1" style="margin:0" placeholder="新标签" />
+					</span>
+					<button type="submit" class="btn btn-small">应用</button>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+	</form>
+
+</fieldset>
+
+<script type="text/javascript">
+$(function() {
+	$("#op").change(function() {
+		if ($(this).children("option:selected").val() == 'merge') {
+			$('#mergeto').show();
+		} else {
+			$('#mergeto').hide();
+		}
+	});
+});
+</script>

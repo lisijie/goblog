@@ -7,10 +7,6 @@ import (
 	"github.com/lisijie/goblog/controllers/blog"
 )
 
-const (
-	APP_VER = "0.1.0"
-)
-
 func main() {
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true
@@ -36,15 +32,14 @@ func main() {
 	beego.Router("/admin/system/setting", &admin.SystemController{}, "*:Setting")
 	//内容管理
 	beego.Router("/admin/article/list", &admin.ArticleController{}, "*:List")
-	beego.Router("/admin/article/list/page/:page:int", &admin.ArticleController{}, "*:List")
 	beego.Router("/admin/article/add", &admin.ArticleController{}, "*:Add")
 	beego.Router("/admin/article/edit", &admin.ArticleController{}, "*:Edit")
 	beego.Router("/admin/article/save", &admin.ArticleController{}, "post:Save")
 	beego.Router("/admin/article/delete", &admin.ArticleController{}, "*:Delete")
 	beego.Router("/admin/article/batch", &admin.ArticleController{}, "*:Batch")
+	beego.Router("/admin/tag", &admin.TagController{}, "*:Index")
 	//用户管理
 	beego.Router("/admin/user/list", &admin.UserController{}, "*:List")
-	beego.Router("/admin/user/list/page/:id:int", &admin.UserController{}, "*:List")
 	beego.Router("/admin/user/add", &admin.UserController{}, "*:Add")
 	beego.Router("/admin/user/edit", &admin.UserController{}, "*:Edit")
 	beego.Router("/admin/user/delete", &admin.UserController{}, "*:Delete")

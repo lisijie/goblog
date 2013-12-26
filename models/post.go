@@ -26,6 +26,10 @@ type Post struct {
 	Istop    int8
 }
 
+func (m *Post) TableName() string {
+	return TableName("post")
+}
+
 func (m *Post) Insert() error {
 	if _, err := orm.NewOrm().Insert(m); err != nil {
 		return err
@@ -50,7 +54,7 @@ func (m *Post) Update(fields ...string) error {
 func (m *Post) Delete() error {
 	if m.Tags != "" {
 		o := orm.NewOrm()
-		oldtags := strings.Split(m.Tags, ",")
+		oldtags := strings.Split(strings.Trim(m.Tags, ","), ",")
 		//标签统计-1
 		o.QueryTable(&Tag{}).Filter("name__in", oldtags).Update(orm.Params{"count": orm.ColValue(orm.Col_Minus, 1)})
 		//删掉tag_post表的记录
@@ -60,6 +64,10 @@ func (m *Post) Delete() error {
 		return err
 	}
 	return nil
+}
+
+func (m *Post) Query() orm.QuerySeter {
+	return orm.NewOrm().QueryTable(m)
 }
 
 //带颜色的标题
@@ -90,7 +98,7 @@ func (m *Post) TagsLink() string {
 		return ""
 	}
 	var buf bytes.Buffer
-	arr := strings.Split(m.Tags, ",")
+	arr := strings.Split(strings.Trim(m.Tags, ","), ",")
 	for k, v := range arr {
 		if k > 0 {
 			buf.WriteString(", ")

@@ -10,30 +10,18 @@ import (
 	"strings"
 )
 
-//配置项表
-type Option struct {
-	Id    int64
-	Name  string
-	Value string
-}
-
 func init() {
 	dbhost := beego.AppConfig.String("dbhost")
 	dbport := beego.AppConfig.String("dbport")
 	dbuser := beego.AppConfig.String("dbuser")
 	dbpassword := beego.AppConfig.String("dbpassword")
 	dbname := beego.AppConfig.String("dbname")
-	dbprefix := beego.AppConfig.String("dbprefix")
 	if dbport == "" {
 		dbport = "3306"
 	}
 	dsn := dbuser + ":" + dbpassword + "@tcp(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=utf8"
 	orm.RegisterDataBase("default", "mysql", dsn)
-	orm.RegisterModelWithPrefix(dbprefix, new(User))
-	orm.RegisterModelWithPrefix(dbprefix, new(Post))
-	orm.RegisterModelWithPrefix(dbprefix, new(Tag))
-	orm.RegisterModelWithPrefix(dbprefix, new(Option))
-	orm.RegisterModelWithPrefix(dbprefix, new(TagPost))
+	orm.RegisterModel(new(User), new(Post), new(Tag), new(Option), new(TagPost))
 }
 
 func Md5(buf []byte) string {
@@ -59,4 +47,9 @@ func GetOptions() map[string]string {
 	}
 	v := Cache.Get("options")
 	return v.(map[string]string)
+}
+
+//返回带前缀的表名
+func TableName(str string) string {
+	return fmt.Sprintf("%s%s", beego.AppConfig.String("dbprefix"), str)
 }

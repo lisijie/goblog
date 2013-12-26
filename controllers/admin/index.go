@@ -1,7 +1,7 @@
 package admin
 
 import (
-	"github.com/astaxie/beego/orm"
+	"github.com/astaxie/beego"
 	"github.com/lisijie/goblog/models"
 	"os"
 	"runtime"
@@ -12,17 +12,17 @@ type IndexController struct {
 }
 
 func (this *IndexController) Index() {
-	o := orm.NewOrm()
 
 	this.Data["hostname"], _ = os.Hostname()
-	this.Data["version"] = "0.1.0"
+	this.Data["version"] = beego.AppConfig.String("AppVer")
 	this.Data["gover"] = runtime.Version()
 	this.Data["os"] = runtime.GOOS
 	this.Data["cpunum"] = runtime.NumCPU()
 	this.Data["arch"] = runtime.GOARCH
 
-	this.Data["postnum"], _ = o.QueryTable(&models.Post{}).Count()
-	this.Data["tagnum"], _ = o.QueryTable(&models.Tag{}).Count()
-	this.Data["usernum"], _ = o.QueryTable(&models.User{}).Count()
+	this.Data["postnum"], _ = new(models.Post).Query().Count()
+	this.Data["tagnum"], _ = new(models.Tag).Query().Count()
+	this.Data["usernum"], _ = new(models.User).Query().Count()
+
 	this.display()
 }

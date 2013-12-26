@@ -1,10 +1,8 @@
 package admin
 
 import (
-	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/validation"
 	"github.com/lisijie/goblog/models"
-	"strconv"
 	"strings"
 )
 
@@ -14,24 +12,24 @@ type UserController struct {
 
 //用户列表
 func (this *UserController) List() {
-	page, _ := strconv.ParseInt(this.Ctx.Input.Param(":page"), 10, 0)
-	if page < 1 {
-		page = 1
-	}
-	pagesize := int64(10)
-	offset := (page - 1) * pagesize
-
+	var page int64
+	var pagesize int64 = 10
 	var list []*models.User
 	var user models.User
-	o := orm.NewOrm()
-	count, _ := o.QueryTable(&user).Count()
+
+	if page, _ = this.GetInt("page"); page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * pagesize
+
+	count, _ := user.Query().Count()
 	if count > 0 {
-		o.QueryTable(&user).OrderBy("-id").Limit(pagesize, offset).All(&list)
+		user.Query().OrderBy("-id").Limit(pagesize, offset).All(&list)
 	}
 
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(page, count, pagesize, "/admin/user/list").ToString()
+	this.Data["pagebar"] = models.NewPager(page, count, pagesize, "/admin/user/list", true).ToString()
 	this.display()
 }
 

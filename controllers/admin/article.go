@@ -14,28 +14,32 @@ type ArticleController struct {
 
 //管理
 func (this *ArticleController) List() {
-	status, _ := this.GetInt("status")
-	page, _ := strconv.ParseInt(this.Ctx.Input.Param(":page"), 10, 0)
-	if page < 1 {
+	var (
+		page     int64
+		pagesize int64 = 10
+		status   int64
+		offset   int64
+		list     []*models.Post
+		post     models.Post
+	)
+
+	status, _ = this.GetInt("status")
+	if page, _ = this.GetInt("page"); page < 1 {
 		page = 1
 	}
-	pagesize := int64(10)
-	offset := (page - 1) * pagesize
+	offset = (page - 1) * pagesize
 
-	var list []*models.Post
-	var post models.Post
-	o := orm.NewOrm()
-	count, _ := o.QueryTable(&post).Filter("status", status).Count()
+	count, _ := post.Query().Filter("status", status).Count()
 	if count > 0 {
-		o.QueryTable(&post).Filter("status", status).OrderBy("-istop", "-posttime").Limit(pagesize, offset).All(&list)
+		post.Query().Filter("status", status).OrderBy("-istop", "-posttime").Limit(pagesize, offset).All(&list)
 	}
 
-	this.Data["count_1"], _ = o.QueryTable(&post).Filter("status", 1).Count()
-	this.Data["count_2"], _ = o.QueryTable(&post).Filter("status", 2).Count()
+	this.Data["count_1"], _ = post.Query().Filter("status", 1).Count()
+	this.Data["count_2"], _ = post.Query().Filter("status", 2).Count()
 	this.Data["status"] = status
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(page, count, pagesize, fmt.Sprintf("/admin/article/list?status=%d", status)).ToString()
+	this.Data["pagebar"] = models.NewPager(page, count, pagesize, fmt.Sprintf("/admin/article/list?status=%d", status), true).ToString()
 	this.display()
 }
 
@@ -51,23 +55,33 @@ func (this *ArticleController) Edit() {
 	if post.Read() != nil {
 		this.Abort("404")
 	}
+	post.Tags = strings.Trim(post.Tags, ",")
 	this.Data["post"] = post
 	this.display()
 }
 
 //保存
 func (this *ArticleController) Save() {
-	o := orm.NewOrm()
+	var (
+		id      int64  = 0
+		title   string = strings.TrimSpace(this.GetString("title"))
+		content string = this.GetString("content")
+		tags    string = strings.TrimSpace(this.GetString("tags"))
+		urlname string = strings.TrimSpace(this.GetString("urlname"))
+		color   string = strings.TrimSpace(this.GetString("color"))
+		status  int64  = 0
+		istop   int8   = 0
+		urltype int8   = 1
+		post    models.Post
+	)
 
-	id, _ := this.GetInt("id")
-	title := this.GetString("title")
-	content := this.GetString("content")
-	tags := this.GetString("tags")
-	urlname := this.GetString("urlname")
-	color := this.GetString("color")
-	status, _ := this.GetInt("status")
-	var istop int8 = 0
-	var urltype int8 = 1
+	if title == "" {
+		this.showmsg("标题不能为空！")
+	}
+
+	id, _ = this.GetInt("id")
+	status, _ = this.GetInt("status")
+
 	if this.GetString("istop") == "1" {
 		istop = 1
 	}
@@ -98,7 +112,6 @@ func (this *ArticleController) Save() {
 		}
 	}
 
-	var post models.Post
 	if id < 1 {
 		post.Userid = this.userid
 		post.Author = this.username
@@ -110,11 +123,13 @@ func (this *ArticleController) Save() {
 			goto RD
 		}
 		if post.Tags != "" {
-			oldtags := strings.Split(post.Tags, ",")
+			var tagobj models.Tag
+			var tagpostobj models.TagPost
+			oldtags := strings.Split(strings.Trim(post.Tags, ","), ",")
 			//标签统计-1
-			o.QueryTable(&models.Tag{}).Filter("name__in", oldtags).Update(orm.Params{"count": orm.ColValue(orm.Col_Minus, 1)})
+			tagobj.Query().Filter("name__in", oldtags).Update(orm.Params{"count": orm.ColValue(orm.Col_Minus, 1)})
 			//删掉tag_post表的记录
-			o.QueryTable(&models.TagPost{}).Filter("postid", post.Id).Delete()
+			tagpostobj.Query().Filter("postid", post.Id).Delete()
 		}
 	}
 
@@ -128,10 +143,10 @@ func (this *ArticleController) Save() {
 				tag.Count += 1
 				tag.Update("Count")
 			}
-			tp := models.TagPost{Tagid: tag.Id, Postid: post.Id, Poststatus: int8(status), Posttime: post.Posttime}
+			tp := models.TagPost{Tagid: tag.Id, Postid: post.Id, Poststatus: int8(status), Posttime: this.getTime()}
 			tp.Insert()
 		}
-		post.Tags = strings.Join(addtags, ",")
+		post.Tags = "," + strings.Join(addtags, ",") + ","
 	}
 
 	post.Status = int8(status)
@@ -170,18 +185,20 @@ func (this *ArticleController) Batch() {
 		}
 	}
 
+	var post models.Post
+
 	switch op {
 	case "topub": //移到已发布
-		orm.NewOrm().QueryTable(&models.Post{}).Filter("id__in", idarr).Update(orm.Params{"status": 0})
+		post.Query().Filter("id__in", idarr).Update(orm.Params{"status": 0})
 	case "todrafts": //移到草稿箱
-		orm.NewOrm().QueryTable(&models.Post{}).Filter("id__in", idarr).Update(orm.Params{"status": 1})
+		post.Query().Filter("id__in", idarr).Update(orm.Params{"status": 1})
 	case "totrash": //移到回收站
-		orm.NewOrm().QueryTable(&models.Post{}).Filter("id__in", idarr).Update(orm.Params{"status": 2})
+		post.Query().Filter("id__in", idarr).Update(orm.Params{"status": 2})
 	case "delete": //批量删除
 		for _, id := range idarr {
-			post := models.Post{Id: id}
-			if post.Read() == nil {
-				post.Delete()
+			obj := models.Post{Id: id}
+			if obj.Read() == nil {
+				obj.Delete()
 			}
 		}
 	}

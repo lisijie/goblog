@@ -46,7 +46,7 @@ select {font-size: 12px; margin: 0;}
 .table-form td, .table-form th {border:none; padding:5px; line-height:180%;}
 .table-form th {text-align:right; font-weight:normal; color:#333}
 
-.pagination {margin:3px 0;}
+.pagination {margin:0;}
 
 .search-form {border:1px solid #FBEED5; background:#FCF8E3; padding:5px; margin:5px 0}
 .search-form form {margin:0}

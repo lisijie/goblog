@@ -51,11 +51,17 @@ func (this *baseController) auth() {
 }
 
 //渲染模版
-func (this *baseController) display() {
+func (this *baseController) display(tpl ...string) {
+	var tplname string
+	if len(tpl) == 1 {
+		tplname = this.moduleName + "/" + tpl[0] + ".html"
+	} else {
+		tplname = this.moduleName + "/" + this.controllerName + "_" + this.actionName + ".html"
+	}
 	this.Data["adminid"] = this.userid
 	this.Data["adminname"] = this.username
 	this.Layout = this.moduleName + "/layout.html"
-	this.TplNames = this.moduleName + "/" + this.controllerName + "_" + this.actionName + ".html"
+	this.TplNames = tplname
 }
 
 //显示错误提示

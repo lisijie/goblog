@@ -18,6 +18,10 @@ type User struct {
 	Active     int8
 }
 
+func (m *User) TableName() string {
+	return TableName("user")
+}
+
 func (m *User) Insert() error {
 	if _, err := orm.NewOrm().Insert(m); err != nil {
 		return err
@@ -44,4 +48,8 @@ func (m *User) Delete() error {
 		return err
 	}
 	return nil
+}
+
+func (m *User) Query() orm.QuerySeter {
+	return orm.NewOrm().QueryTable(m)
 }
