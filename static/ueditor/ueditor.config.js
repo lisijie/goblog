@@ -137,7 +137,7 @@
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         
-        , toolbars: [["fullscreen","source","undo","redo","insertunorderedlist","insertorderedlist","unlink","link","preview","insertimage","insertvideo","attachment","map","horizontal","spechars","template","|","bold","italic","underline","strikethrough","forecolor","backcolor","superscript","subscript","justifyleft","justifycenter","justifyjustify","justifyright","indent","removeformat","formatmatch","autotypeset","customstyle","paragraph","rowspacingbottom","rowspacingtop","lineheight","fontfamily","fontsize","inserttable","deletetable","mergeright","mergedown","splittorows","splittocols","splittocells","mergecells","insertcol","insertrow","deletecol","deleterow","insertparagraphbeforetable"],[]]
+        , toolbars: [["fullscreen","source","undo","redo","insertunorderedlist","insertorderedlist","unlink","link","insertimage","insertvideo","attachment","horizontal","spechars","template","|","bold","italic","underline","strikethrough","forecolor","backcolor","superscript","subscript","justifyleft","justifycenter","justifyjustify","justifyright","indent","removeformat","formatmatch","autotypeset","customstyle","paragraph","rowspacingbottom","rowspacingtop","lineheight","fontfamily","fontsize","insertcode","inserttable","deletetable",'map', 'gmap',"preview"],[]]
         ,lang:"zh-cn"
         //主题配置项,默认是default。有需要的话也可以使用如下这样的方式来自动多主题切换，当然，前提条件是themes文件夹下存在对应的主题文件：
         //现有如下皮肤:default
@@ -177,7 +177,7 @@
         //,imagePopup:true      //图片操作的浮层开关，默认打开
 
         //如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
-        //,initialStyle:'p{line-height:1em}'//编辑器层级的基数,可以用来改变字体等
+        ,initialStyle:'p{line-height:1.5em;margin:1em 0;font-size:14px}'//编辑器层级的基数,可以用来改变字体等
 
         //,autoSyncData:true //自动同步编辑器要提交的数据
         //,emotionLocalization:false //是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
@@ -319,8 +319,8 @@
 
         //highlightcode
         // 代码高亮时需要加载的第三方插件的路径
-        // ,highlightJsUrl:URL + "third-party/SyntaxHighlighter/shCore.js"
-        // ,highlightCssUrl:URL + "third-party/SyntaxHighlighter/shCoreDefault.css"
+        //,highlightJsUrl:URL + "third-party/SyntaxHighlighter/shCore.js"
+        //,highlightCssUrl:URL + "third-party/SyntaxHighlighter/shCoreDefault.css"
 
         //tab
         //点击tab键时移动的距离,tabSize倍数，tabNode什么字符做为单位

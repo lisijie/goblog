@@ -45,6 +45,7 @@ select {font-size: 12px; margin: 0;}
 .table-list tfoot, .table-form tfoot {background:#f9f9f9}
 .table-form td, .table-form th {border:none; padding:5px; line-height:180%;}
 .table-form th {text-align:right; font-weight:normal; color:#333}
+.table-form td input {margin: 0}
 
 .pagination {margin:0;}
 

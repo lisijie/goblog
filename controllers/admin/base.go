@@ -58,6 +58,7 @@ func (this *baseController) display(tpl ...string) {
 	} else {
 		tplname = this.moduleName + "/" + this.controllerName + "_" + this.actionName + ".html"
 	}
+	this.Data["version"] = beego.AppConfig.String("AppVer")
 	this.Data["adminid"] = this.userid
 	this.Data["adminname"] = this.username
 	this.Layout = this.moduleName + "/layout.html"
