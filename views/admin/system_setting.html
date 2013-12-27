@@ -46,6 +46,12 @@
 				</td>
 			</tr>
 			<tr>
+				<th>统计代码</th>
+				<td>
+					<textarea name="stat" rows="2" class="span5" title="统计代码" >{{.options.stat}}</textarea>
+				</td>
+			</tr>
+			<tr>
 				<th>主题模板</th>
 				<td>
 					<input name="theme" value="{{.options.theme}}" class="input" title="主题模板" type="text" />
@@ -89,6 +95,7 @@
 					<span>当前UTC时间：{{date .now "Y-m-d H:i:s"}}</span>
 				</td>
 			</tr>
+			
 		</tbody>
 		<tfoot>
 			<tr>

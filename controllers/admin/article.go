@@ -15,31 +15,48 @@ type ArticleController struct {
 //管理
 func (this *ArticleController) List() {
 	var (
-		page     int64
-		pagesize int64 = 10
-		status   int64
-		offset   int64
-		list     []*models.Post
-		post     models.Post
+		page       int64
+		pagesize   int64 = 10
+		status     int64
+		offset     int64
+		list       []*models.Post
+		post       models.Post
+		searchtype string
+		keyword    string
 	)
-
+	searchtype = this.GetString("searchtype")
+	keyword = this.GetString("keyword")
 	status, _ = this.GetInt("status")
 	if page, _ = this.GetInt("page"); page < 1 {
 		page = 1
 	}
 	offset = (page - 1) * pagesize
 
-	count, _ := post.Query().Filter("status", status).Count()
+	query := post.Query().Filter("status", status)
+
+	if keyword != "" {
+		switch searchtype {
+		case "title":
+			query = query.Filter("title__icontains", keyword)
+		case "author":
+			query = query.Filter("author__icontains", keyword)
+		case "tag":
+			query = query.Filter("tags__icontains", keyword)
+		}
+	}
+	count, _ := query.Count()
 	if count > 0 {
-		post.Query().Filter("status", status).OrderBy("-istop", "-posttime").Limit(pagesize, offset).All(&list)
+		query.OrderBy("-istop", "-posttime").Limit(pagesize, offset).All(&list)
 	}
 
+	this.Data["searchtype"] = searchtype
+	this.Data["keyword"] = keyword
 	this.Data["count_1"], _ = post.Query().Filter("status", 1).Count()
 	this.Data["count_2"], _ = post.Query().Filter("status", 2).Count()
 	this.Data["status"] = status
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(page, count, pagesize, fmt.Sprintf("/admin/article/list?status=%d", status), true).ToString()
+	this.Data["pagebar"] = models.NewPager(page, count, pagesize, fmt.Sprintf("/admin/article/list?status=%d&searchtype=%s&keyword=%s", status, searchtype, keyword), true).ToString()
 	this.display()
 }
 

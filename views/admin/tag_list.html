@@ -9,7 +9,6 @@
 			<th width="30">ID</th>
 			<th>标签名称</th>
 			<th width="150">内容数</th>
-			<th width="60">操作</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -19,9 +18,6 @@
 				<td>{{$v.Id}}</td>
 				<td>{{$v.Name}}</td>
 				<td>{{$v.Count}}</td>
-				<td>
-				<a href="/admin/tag?act=edit&id={{$v.Id}}">编辑</a>
-				</td>
 			</tr>
 		{{end}}
 		</tbody>

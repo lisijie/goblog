@@ -9,6 +9,17 @@
 		<a href="/admin/article/list?status=2" {{if eq .status 2}}class="active"{{end}}>回收站({{.count_2}})</a>
 	</div>
 
+	<div class="search-form">
+	<form action="/admin/article/list?status={{.status}}" method="post" class="form-inline">
+		<select name="searchtype" class="span2" >
+		<option value="title" {{if eq .searchtype "title"}}selected{{end}}>标题</option>
+		<option value="author" {{if eq .searchtype "author"}}selected{{end}}>作者</option>
+		<option value="tag" {{if eq .searchtype "tag"}}selected{{end}}>标签</option>
+		</select>
+		<input name="keyword" id="keyword" value="{{.keyword}}" class="input" placeholder="关键字" type="text" />
+		<button type="submit" class="btn">搜索</button>
+	</form>
+	</div>
 
 	<form method="post" name="p" action="/admin/article/batch">
 	<table class="table table-list">
@@ -29,14 +40,14 @@
 		<tr>
 			<td><input type="checkbox" name="ids[]" value="{{$v.Id}}" /></td>
 			<td>{{$v.Id}}</td>
-			<td>
+			<td class="hl_title">
 				{{if $v.Istop}}
 				<i class="icon-arrow-up" title="置顶"> </i>
 				{{end}}
 				<a href="{{$v.Link}}" target="_blank">{{str2html $v.ColorTitle}}</a></td>
-			<td>{{str2html $v.TagsLink}}</td>
+			<td class="hl_tag">{{str2html $v.TagsLink}}</td>
 			<td>{{$v.Views}}</td>
-			<td>{{$v.Author}}</td>
+			<td class="hl_author">{{$v.Author}}</td>
 			<td>{{date $v.Posttime "m月d日 H:i:s"}}</td>
 			<td><a href="/admin/article/edit?id={{$v.Id}}">编辑</a> | <a href="/admin/article/delete?id={{$v.Id}}" onclick="return del_confirm()">删除</a></td>
 		</tr>
@@ -64,3 +75,31 @@
 	</form>
 
 </fieldset>
+
+<script type="text/javascript">
+$(function() {
+	searchtype = $(":input[name='searchtype']").children("option:selected").val();
+	keyword = $(":input[name='keyword']").val();
+	if (keyword != "") {
+		re = new RegExp(keyword, "g");
+		switch (searchtype) {
+			case "title":
+				$(".hl_title").each(function(){
+					$(this).children("a").html($(this).children("a").html().replace(re, "<span style='color:red'>"+keyword+"</span>"));
+				});
+				break;
+			case "author":
+				$(".hl_author").each(function(){
+					$(this).html($(this).html().replace(re, "<span style='color:red'>"+keyword+"</span>"));
+				});
+				break;
+			case "tag":
+				$(".hl_tag").each(function(){
+					$(this).children("a").html($(this).children("a").html().replace(re, "<span style='color:red'>"+keyword+"</span>"));
+				});
+				break;
+		}
+		
+	}
+})
+</script>
