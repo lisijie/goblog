@@ -48,6 +48,7 @@ INSERT INTO `tb_option` (`id`, `name`, `value`) VALUES
 (7, 'email', 'lisijie86@gmail.com'),
 (8, 'theme', 'default'),
 (9, 'timezone', '8');
+(10, 'stat', '');
 
 -- --------------------------------------------------------
 
