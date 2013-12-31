@@ -88,7 +88,7 @@ func (this *ArticleController) Save() {
 		color   string = strings.TrimSpace(this.GetString("color"))
 		status  int64  = 0
 		istop   int8   = 0
-		urltype int8   = 1
+		urltype int8   = 0
 		post    models.Post
 	)
 
@@ -102,8 +102,8 @@ func (this *ArticleController) Save() {
 	if this.GetString("istop") == "1" {
 		istop = 1
 	}
-	if this.GetString("urltype") == "2" {
-		urltype = 2
+	if this.GetString("urltype") == "1" {
+		urltype = 1
 	}
 	if status != 1 && status != 2 {
 		status = 0
@@ -174,7 +174,7 @@ func (this *ArticleController) Save() {
 	post.Urlname = urlname
 	post.Urltype = urltype
 	post.Updated = this.getTime()
-	post.Update()
+	post.Update("tags", "status", "title", "color", "istop", "content", "urlname", "urltype", "updated")
 
 RD:
 	this.Redirect("/admin/article/list", 302)

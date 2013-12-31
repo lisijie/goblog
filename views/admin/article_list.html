@@ -44,7 +44,11 @@
 				{{if $v.Istop}}
 				<i class="icon-arrow-up" title="置顶"> </i>
 				{{end}}
-				<a href="{{$v.Link}}" target="_blank">{{str2html $v.ColorTitle}}</a></td>
+				<a href="{{$v.Link}}" target="_blank">{{str2html $v.ColorTitle}}</a>
+				{{if $v.Urltype}}
+				<span class="label label-important">页面</span>
+				{{end}}
+			</td>
 			<td class="hl_tag">{{str2html $v.TagsLink}}</td>
 			<td>{{$v.Views}}</td>
 			<td class="hl_author">{{$v.Author}}</td>

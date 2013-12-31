@@ -1,9 +1,7 @@
 package blog
 
 import (
-	"github.com/astaxie/beego/orm"
 	"github.com/lisijie/goblog/models"
-	"net/url"
 	"strconv"
 	"strings"
 )
@@ -16,7 +14,6 @@ type MainController struct {
 func (this *MainController) Index() {
 	var (
 		list     []*models.Post
-		post     models.Post
 		pagesize int
 		err      error
 	)
@@ -25,8 +22,7 @@ func (this *MainController) Index() {
 		pagesize = 10
 	}
 
-	o := orm.NewOrm()
-	o.QueryTable(&post).Filter("status", 0).OrderBy("-istop", "-posttime").Limit(pagesize).All(&list)
+	new(models.Post).Query().Filter("status", 0).Filter("urltype", 0).OrderBy("-istop", "-posttime").Limit(pagesize).All(&list)
 
 	this.Data["list"] = list
 	this.setHeadMetas()
@@ -81,12 +77,13 @@ func (this *MainController) Archives() {
 		pagesize *= 2
 	}
 
-	o := orm.NewOrm()
-	count, _ = o.QueryTable(&models.Post{}).Filter("status", 0).Count()
+	query := new(models.Post).Query().Filter("status", 0).Filter("urltype", 0)
+
+	count, _ = query.Count()
 	result = make(map[string][]*models.Post)
 	if count > 0 {
 		var list []*models.Post
-		o.QueryTable(&models.Post{}).Filter("status", 0).OrderBy("-posttime").Limit(pagesize, (page-1)*pagesize).All(&list)
+		query.OrderBy("-posttime").Limit(pagesize, (page-1)*pagesize).All(&list)
 		for _, v := range list {
 			year := v.Posttime.Format("2006")
 			if _, ok := result[year]; !ok {
@@ -126,27 +123,28 @@ func (this *MainController) Category() {
 		pagesize *= 2
 	}
 
-	o := orm.NewOrm()
+	tagpost := new(models.TagPost)
 	tag := new(models.Tag)
 	tag.Name = name
 
-	if o.Read(tag, "Name") != nil {
+	if tag.Read("Name") != nil {
 		this.Abort("404")
 	}
 
-	count, _ = o.QueryTable(&models.TagPost{}).Filter("tagid", tag.Id).Filter("poststatus", 0).Count()
+	query := tagpost.Query().Filter("tagid", tag.Id).Filter("poststatus", 0)
+	count, _ = query.Count()
 	result = make(map[string][]*models.Post)
 	if count > 0 {
 		var tp []*models.TagPost
 		var list []*models.Post
 		var pids []int64 = make([]int64, 0)
 
-		o.QueryTable(&models.TagPost{}).Filter("tagid", tag.Id).Filter("poststatus", 0).OrderBy("-posttime").Limit(pagesize, (page-1)*pagesize).All(&tp)
+		query.OrderBy("-posttime").Limit(pagesize, (page-1)*pagesize).All(&tp)
 		for _, v := range tp {
 			pids = append(pids, v.Postid)
 		}
 
-		o.QueryTable(&models.Post{}).Filter("id__in", pids).All(&list)
+		new(models.Post).Query().Filter("id__in", pids).All(&list)
 
 		for _, v := range list {
 			year := v.Posttime.Format("2006")
@@ -162,7 +160,7 @@ func (this *MainController) Category() {
 	this.Data["pagesize"] = pagesize
 	this.Data["count"] = count
 	this.Data["result"] = result
-	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), "/category/"+url.QueryEscape(tag.Name)).ToString()
+	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), tag.Link()).ToString()
 
 	this.setHeadMetas(tag.Name, tag.Name, tag.Name)
 	this.display("category")

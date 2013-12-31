@@ -22,9 +22,7 @@
 				<td>
 					<input type="text" name="urlname" class="span3" value="{{.post.Urlname}}" />
 					<span>
-					访问形式
-					<label class="help-inline"><input type="radio" name="urltype" value="1" {{if eq .post.Urltype 1}}checked{{end}} /> http://domain/<b>urlname</b></label>
-					<label class="help-inline"><input type="radio" name="urltype" value="2" {{if eq .post.Urltype 2}}checked{{end}} /> http://domain/article/<b>urlname</b></label>
+					<label class="help-inline" title="独立页面使用http://domain/urlname访问，普通页面使用http://domain/article/urlname访问"><input type="checkbox" name="urltype" value="1" {{if eq .post.Urltype 1}}checked{{end}} /> 作为独立页面不显示在列表(使用 http://domain/urlname 访问)</label>
 					</span>
 				</td>
 			</tr>

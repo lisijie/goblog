@@ -82,14 +82,12 @@ func (m *Post) ColorTitle() string {
 //内容URL
 func (m *Post) Link() string {
 	if m.Urlname != "" {
-		if m.Urltype == 2 {
-			return fmt.Sprintf("/article/%s", Rawurlencode(m.Urlname))
-		} else {
+		if m.Urltype == 1 {
 			return fmt.Sprintf("/%s", Rawurlencode(m.Urlname))
 		}
-	} else {
-		return fmt.Sprintf("/article/%d", m.Id)
+		return fmt.Sprintf("/article/%s", Rawurlencode(m.Urlname))
 	}
+	return fmt.Sprintf("/article/%d", m.Id)
 }
 
 //带链接的标签
