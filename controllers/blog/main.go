@@ -16,15 +16,26 @@ func (this *MainController) Index() {
 		list     []*models.Post
 		pagesize int
 		err      error
+		page     int
 	)
+
+	if page, err = strconv.Atoi(this.Ctx.Input.Param(":page")); err != nil || page < 1 {
+		page = 1
+	}
 
 	if pagesize, err = strconv.Atoi(this.getOption("pagesize")); err != nil || pagesize < 1 {
 		pagesize = 10
 	}
 
-	new(models.Post).Query().Filter("status", 0).Filter("urltype", 0).OrderBy("-istop", "-posttime").Limit(pagesize).All(&list)
+	query := new(models.Post).Query().Filter("status", 0).Filter("urltype", 0)
+	count, _ := query.Count()
+	if count > 0 {
+		query.OrderBy("-istop", "-posttime").Limit(pagesize, (page-1)*pagesize).All(&list)
+	}
 
+	this.Data["count"] = count
 	this.Data["list"] = list
+	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), "").ToString()
 	this.setHeadMetas()
 	this.display("index")
 }
@@ -69,7 +80,7 @@ func (this *MainController) Archives() {
 		result   map[string][]*models.Post
 	)
 
-	if page, err = strconv.Atoi(this.Ctx.Input.Param("page")); err != nil || page < 1 {
+	if page, err = strconv.Atoi(this.Ctx.Input.Param(":page")); err != nil || page < 1 {
 		page = 1
 	}
 
