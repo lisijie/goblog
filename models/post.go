@@ -16,7 +16,6 @@ type Post struct {
 	Color    string `orm:"size(7)"`
 	Urlname  string `orm:"size(100);index"`
 	Urltype  int8
-	Excerpt  string    `orm:"type(text)"`
 	Content  string    `orm:"type(text)"`
 	Tags     string    `orm:"size(100)"`
 	Posttime time.Time `orm:"type(datetime);index"`
@@ -105,4 +104,12 @@ func (m *Post) TagsLink() string {
 		buf.WriteString(tag.Link())
 	}
 	return buf.String()
+}
+
+//摘要
+func (m *Post) Excerpt() string {
+	if i := strings.Index(m.Content, "_ueditor_page_break_tag_"); i != -1 {
+		return m.Content[:i]
+	}
+	return m.Content
 }
