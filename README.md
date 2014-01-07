@@ -7,6 +7,9 @@
 演示地址：
 [http://www.ptapp.cn/](http://www.ptapp.cn/)
 
+我的博客：
+[http://www.lisijie.org/](http://www.lisijie.org/)
+
 ##编译安装说明：
 
 设置GOPATH(安装目录)
