@@ -63,7 +63,7 @@ func (this *ArticleController) List() {
 
 //添加
 func (this *ArticleController) Add() {
-	this.Data["posttime"] = this.getTime().Format("2006-01-02 03:04:05")
+	this.Data["posttime"] = this.getTime().Format("2006-01-02 15:04:05")
 	this.display()
 }
 
@@ -76,7 +76,7 @@ func (this *ArticleController) Edit() {
 	}
 	post.Tags = strings.Trim(post.Tags, ",")
 	this.Data["post"] = post
-	this.Data["posttime"] = post.Posttime.Format("2006-01-02 03:04:05")
+	this.Data["posttime"] = post.Posttime.Format("2006-01-02 15:04:05")
 	this.display()
 }
 
@@ -169,10 +169,10 @@ func (this *ArticleController) Save() {
 		}
 		post.Tags = "," + strings.Join(addtags, ",") + ","
 	}
-	if posttime, err := time.Parse("2006-01-02 03:04:05", timestr); err == nil {
+	if posttime, err := time.Parse("2006-01-02 15:04:05", timestr); err == nil {
 		post.Posttime = posttime
 	} else {
-		post.Posttime, _ = time.Parse("2006-01-02 03:04:05", post.Posttime.Format("2006-01-02 03:04:05"))
+		post.Posttime, _ = time.Parse("2006-01-02 15:04:05", post.Posttime.Format("2006-01-02 15:04:05"))
 	}
 	post.Status = int8(status)
 	post.Title = title
