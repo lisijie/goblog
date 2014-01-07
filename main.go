@@ -37,6 +37,7 @@ func main() {
 	beego.Router("/admin/article/save", &admin.ArticleController{}, "post:Save")
 	beego.Router("/admin/article/delete", &admin.ArticleController{}, "*:Delete")
 	beego.Router("/admin/article/batch", &admin.ArticleController{}, "*:Batch")
+	beego.Router("/admin/article/upload", &admin.ArticleController{}, "*:Upload")
 	beego.Router("/admin/tag", &admin.TagController{}, "*:Index")
 	//用户管理
 	beego.Router("/admin/user/list", &admin.UserController{}, "*:List")
