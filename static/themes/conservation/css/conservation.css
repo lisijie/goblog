@@ -82,3 +82,9 @@ body {
     border: 2px solid #a1a1a1;
     border-radius: 10px;
 }
+article .entry-content {
+    line-height: 1.6;
+}
+article .entry-content p {
+    margin-top: 0px;
+}
