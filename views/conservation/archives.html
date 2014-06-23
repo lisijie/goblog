@@ -1,0 +1,26 @@
+<div itemscope itemtype="http://schema.org/Blog">
+
+{{range $year, $list := .result}}
+	<section class="archives"><h1 class="year">{{$year}}</h1>
+	
+	{{range $k, $v := $list}}
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
+			<time datetime="{{$v.Posttime}}" data-updated="true" itemprop="datePublished">{{date $v.Posttime "M j"}}</time>
+			</div>
+			<div class="tags">{{str2html $v.TagsLink}}</div>	
+		</div>
+		<h1 class="title" itemprop="name">
+		<a href="{{$v.Link}}" itemprop="url">{{str2html $v.ColorTitle}}</a>
+		</h1>
+	</article>
+	{{end}}
+
+{{end}}
+
+</div>
+
+<nav id="pagenavi">
+	<div class="center">{{str2html .pagebar}}</div>
+</nav>
