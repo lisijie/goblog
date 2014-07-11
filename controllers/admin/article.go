@@ -138,6 +138,7 @@ func (this *ArticleController) Save() {
 		post.Userid = this.userid
 		post.Author = this.username
 		post.Posttime = this.getTime()
+		post.Updated = post.getTime()
 		post.Insert()
 	} else {
 		post.Id = id
