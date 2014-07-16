@@ -139,6 +139,7 @@
         
         , toolbars: [["fullscreen","source","undo","redo","insertunorderedlist","insertorderedlist","unlink","link","insertimage","insertvideo","attachment","horizontal","spechars","template","|","bold","italic","underline","strikethrough","forecolor","backcolor","superscript","subscript","justifyleft","justifycenter","justifyjustify","justifyright","indent","removeformat","formatmatch","autotypeset","pagebreak","customstyle","paragraph","rowspacingbottom","rowspacingtop","lineheight","fontfamily","fontsize","insertcode","inserttable","deletetable",'map', 'gmap',"preview"],[]]
         ,lang:"zh-cn"
+        ,wordCount:0
         //主题配置项,默认是default。有需要的话也可以使用如下这样的方式来自动多主题切换，当然，前提条件是themes文件夹下存在对应的主题文件：
         //现有如下皮肤:default
         //,theme:'default'
