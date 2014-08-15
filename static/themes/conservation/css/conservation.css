@@ -1,0 +1,90 @@
+body {
+    color: black;
+}
+.inner {
+    margin:0 auto
+}
+.container {
+    min-width: 1024px;
+}
+.container .wrapper {
+    position: relative;
+    min-height: 100%;
+    margin: 0 auto;
+    min-width: 1024px;
+    width: 80%;
+}
+.container .mid-col {
+    min-height:100%;
+    min-width: 1024px;
+    width: 100%;
+    margin: 0 auto;
+    background:whitesmoke;
+    padding-top: 55px;
+}
+.container .left-col {
+    width: 100%;
+    opacity:.6;
+    -webkit-transition:all .2s ease-in;
+    -moz-transition:all .2s ease-in;
+    -o-transition:all .2s ease-in;
+    -ms-transition:all .2s ease-in;
+    transition:all .2s ease-in;
+    height: 55px;
+    z-index: 1000;
+    background-color: black;
+}
+.container .left-col .intrude-less {
+    width: 100%;
+}
+.container .left-col #header {
+    width:100%;
+    padding: 0;
+    line-height: 25px;
+}
+.container .left-col #header .header-element {
+    float: left;
+}
+.container .left-col #header .sitename {
+    padding-left: 60px;
+    padding-right: 60px;
+    margin-top: 6px;
+    text-align: center;
+}
+.container .left-col #header #sub-nav {
+    float: right;
+    margin-right: 50px;
+}
+.container .left-col #header .github {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    z-index: 10;
+    width: 149px;
+    height: 149px;
+}
+.container .left-col #header #main-nav {
+    float:none;
+    margin-left:0px;
+    margin-top: 20px;
+    font-size: 2em;
+}
+.container .left-col #header #main-nav ul li {
+    margin-left: 40px;
+    display:block;
+    float: left;
+}
+.container .mid-col .post .title {
+    color: rgb(255, 0, 0);
+}
+.container .mid-col .mid-col-container {
+    /*box-shadow: 10px 10px 5px #888888;*/
+    border: 2px solid #a1a1a1;
+    border-radius: 10px;
+}
+article .entry-content {
+    line-height: 1.6;
+}
+article .entry-content p {
+    margin-top: 0px;
+}
