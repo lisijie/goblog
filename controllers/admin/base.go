@@ -3,6 +3,7 @@ package admin
 import (
 	"github.com/astaxie/beego"
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/util"
 	"strconv"
 	"strings"
 	"time"
@@ -38,7 +39,7 @@ func (this *baseController) auth() {
 			if userid > 0 {
 				var user models.User
 				user.Id = userid
-				if user.Read() == nil && password == models.Md5([]byte(this.getClientIp()+"|"+user.Password)) {
+				if user.Read() == nil && password == util.Md5([]byte(this.getClientIp()+"|"+user.Password)) {
 					this.userid = user.Id
 					this.username = user.Username
 				}
@@ -56,7 +57,7 @@ func (this *baseController) display(tpl ...string) {
 	if len(tpl) == 1 {
 		tplname = this.moduleName + "/" + tpl[0] + ".html"
 	} else {
-		tplname = this.moduleName + "/" + this.controllerName + "_" + this.actionName + ".html"
+		tplname = this.moduleName + "/" + this.controllerName + "/" + this.actionName + ".html"
 	}
 	this.Data["version"] = beego.AppConfig.String("AppVer")
 	this.Data["adminid"] = this.userid

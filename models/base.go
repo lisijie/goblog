@@ -1,13 +1,10 @@
 package models
 
 import (
-	"crypto/md5"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	"net/url"
-	"strings"
 )
 
 func Init() {
@@ -22,16 +19,6 @@ func Init() {
 	dsn := dbuser + ":" + dbpassword + "@tcp(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=utf8"
 	orm.RegisterDataBase("default", "mysql", dsn)
 	orm.RegisterModel(new(User), new(Post), new(Tag), new(Option), new(TagPost))
-}
-
-func Md5(buf []byte) string {
-	hash := md5.New()
-	hash.Write(buf)
-	return fmt.Sprintf("%x", hash.Sum(nil))
-}
-
-func Rawurlencode(str string) string {
-	return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
 }
 
 func GetOptions() map[string]string {

@@ -1,0 +1,87 @@
+<fieldset>
+	<legend>发布文章</legend>
+	<form method="post" name="p" action="/admin/article/save">
+	<table class="table table-form">
+		<tbody>
+			<tr>
+				<th width="60">标题</th>
+				<td>
+					<input type="text" name="title" class="span6" />
+					<input name="color" value="" type="hidden" />
+					<img src="/static/themes/admin/img/colorpicker.png" id="colorpicker" style="cursor:pointer;margin:0 10px 10px 5px;" />
+					<span><label class="help-inline"><input type="checkbox" value="1" name="istop" /> 置顶文章</label></span>
+				</td>
+			</tr>
+			<tr>
+				<th>分类标签</th>
+				<td><input type="text" name="tags" class="span3" /> <span>多个用英文逗号","分隔</span></td>
+			</tr>
+			<tr>
+				<th>URL名称</th>
+				<td>
+					<input type="text" name="urlname" class="span3" />
+					<span>
+					<label class="help-inline" title="独立页面使用http://domain/urlname访问，普通页面使用http://domain/article/urlname访问"><input type="checkbox" name="urltype" value="1" /> 作为独立页面不显示在列表(使用 http://domain/urlname 访问)</label>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th>发布时间</th>
+				<td>
+					<input type="text" name="posttime" value="{{.posttime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" />
+            	</td>
+			</tr>
+			<tr>
+				<th>保存到</th>
+				<td>
+					<select name="status">
+						<option value="0">已发布</option>
+						<option value="1">草稿箱</option>
+						<option value="2">回收站</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>内容</th>
+				<td>
+					<script type="text/javascript" charset="utf-8">
+						window.UEDITOR_HOME_URL = "/static/ueditor/";
+					</script>
+					<script type="text/javascript" src="/static/ueditor/ueditor.config.js"></script>
+					<script type="text/javascript" src="/static/ueditor/ueditor.all.min.js"></script>
+					<script type="text/plain" id="content" name="content"></script>
+					<script type="text/javascript" charset="utf-8">
+						var options = {"fileUrl":"/admin/article/upload","filePath":"","imageUrl":"/admin/article/upload","imagePath":"","initialFrameWidth":"90%","initialFrameHeight":"400"};
+						var ue = UE.getEditor("content", options);
+					</script>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+		<tr>
+			<td></td>
+			<td><button type="submit" class="btn"><i class="icon-ok"></i> 提交</button>
+				<button type="button" class="btn" onclick="javascript:history.back();">取消</button></td>
+		</tr>
+		</tfoot>
+	</table>
+	</form>
+
+</fieldset>
+
+<script src="/static/themes/admin/js/jquery.colorpicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#colorpicker").colorpicker({
+			fillcolor:true,
+			success:function(o,color){
+				$("input[name='title']").css("color",color);
+				$("input[name='color']").val(color);
+			},
+			reset:function(o) {
+				$("input[name='title']").css("color","");
+				$("input[name='color']").val("");
+			}
+		});
+	});
+</script>

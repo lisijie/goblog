@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
+	"github.com/lisijie/goblog/util"
 	"strconv"
 	"strings"
 )
@@ -65,7 +66,7 @@ func (m *Tag) Query() orm.QuerySeter {
 
 //标签连接
 func (m *Tag) Link() string {
-	return fmt.Sprintf("<a class=\"category\" href=\"/category/%s\">%s</a>", Rawurlencode(m.Name), m.Name)
+	return fmt.Sprintf("<a class=\"category\" href=\"/category/%s\">%s</a>", util.Rawurlencode(m.Name), m.Name)
 }
 
 //更新统计

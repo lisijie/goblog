@@ -3,6 +3,7 @@ package admin
 import (
 	"github.com/astaxie/beego/validation"
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/util"
 	"strings"
 )
 
@@ -82,7 +83,7 @@ func (this *UserController) Add() {
 		if len(errmsg) == 0 {
 			var user models.User
 			user.Username = username
-			user.Password = models.Md5([]byte(password))
+			user.Password = util.Md5([]byte(password))
 			user.Email = email
 			user.Active = int8(active)
 			if err := user.Insert(); err != nil {
@@ -121,7 +122,7 @@ func (this *UserController) Edit() {
 			} else if password != password2 {
 				errmsg["password2"] = "两次输入的密码不一致"
 			} else {
-				user.Password = models.Md5([]byte(password))
+				user.Password = util.Md5([]byte(password))
 			}
 		}
 		if v := valid.Required(email, "email"); !v.Ok {

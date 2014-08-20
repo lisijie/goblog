@@ -2,6 +2,7 @@ package admin
 
 import (
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/util"
 	"strconv"
 	"strings"
 )
@@ -19,7 +20,7 @@ func (this *AccountController) Login() {
 		if account != "" && password != "" {
 			var user models.User
 			user.Username = account
-			if user.Read("username") != nil || user.Password != models.Md5([]byte(password)) {
+			if user.Read("username") != nil || user.Password != util.Md5([]byte(password)) {
 				this.Data["errmsg"] = "帐号或密码错误"
 			} else if user.Active == 0 {
 				this.Data["errmsg"] = "该帐号未激活"
@@ -28,7 +29,7 @@ func (this *AccountController) Login() {
 				user.Lastip = this.getClientIp()
 				user.Lastlogin = this.getTime()
 				user.Update()
-				authkey := models.Md5([]byte(this.getClientIp() + "|" + user.Password))
+				authkey := util.Md5([]byte(this.getClientIp() + "|" + user.Password))
 				if remember == "yes" {
 					this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey, 7*86400)
 				} else {
@@ -54,14 +55,14 @@ func (this *AccountController) Profile() {
 	if err := user.Read(); err != nil {
 		this.showmsg(err.Error())
 	}
-	if this.Ctx.Request.Method == "POST" {
+	if this.isPost() {
 		errmsg := make(map[string]string)
 		password := strings.TrimSpace(this.GetString("password"))
 		newpassword := strings.TrimSpace(this.GetString("newpassword"))
 		newpassword2 := strings.TrimSpace(this.GetString("newpassword2"))
 		updated := false
 		if newpassword != "" {
-			if password == "" || models.Md5([]byte(password)) != user.Password {
+			if password == "" || util.Md5([]byte(password)) != user.Password {
 				errmsg["password"] = "当前密码错误"
 			} else if len(newpassword) < 6 {
 				errmsg["newpassword"] = "密码长度不能少于6个字符"
@@ -69,7 +70,7 @@ func (this *AccountController) Profile() {
 				errmsg["newpassword2"] = "两次输入的密码不一致"
 			}
 			if len(errmsg) == 0 {
-				user.Password = models.Md5([]byte(newpassword))
+				user.Password = util.Md5([]byte(newpassword))
 				user.Update("password")
 				updated = true
 			}

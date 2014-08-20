@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/lisijie/goblog/util"
 	"bytes"
 	"fmt"
 	"github.com/astaxie/beego/orm"
@@ -82,9 +83,9 @@ func (m *Post) ColorTitle() string {
 func (m *Post) Link() string {
 	if m.Urlname != "" {
 		if m.Urltype == 1 {
-			return fmt.Sprintf("/%s", Rawurlencode(m.Urlname))
+			return fmt.Sprintf("/%s", util.Rawurlencode(m.Urlname))
 		}
-		return fmt.Sprintf("/article/%s", Rawurlencode(m.Urlname))
+		return fmt.Sprintf("/article/%s", util.Rawurlencode(m.Urlname))
 	}
 	return fmt.Sprintf("/article/%d", m.Id)
 }

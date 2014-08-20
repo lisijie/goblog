@@ -1,58 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>GoBlog 后台管理 v{{.version}}</title>
-	<meta name="robots" content="all">
+	<meta charset="utf-8" />
+	<title>GoBlog后台管理 v{{.version}}</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="lsj86@qq.com" name="author" />
 	<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
-	<link href="/static/themes/admin/css/admin.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/themes/admin/css/style.css" rel="stylesheet" type="text/css"/>
 	<script src="/static/js/jquery.min.js" type="text/javascript"></script>
 	<script src="/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="/static/themes/admin/js/admin.js" type="text/javascript"></script>
+	<script src="/static/datepicker/WdatePicker.js" type="text/javascript"></script>
 </head>
 <body>
-
-<div class="header">
-	<div class="container">
-	<h1>GoBlog 后台管理 <span>您好！{{.adminname}} <i>|</i> <a href="/admin/logout">退出登录</a> <i>|</i> <a href="/admin/account/profile">个人信息</a> <i>|</i> <a href="/" target="_blank">站点首页</a></span></h1>
-	</div>
-</div>
-
-<div class="container main">
-<div class="row">
-		<div class="span2">
-		<div class="well">
-		    <ul class="nav nav-list">
-
-				<li class="nav-header">系统管理</li>
-				<li><a href="/admin/system/setting">系统设置</a></li>
-				<li><a href="/admin">系统信息</a></li>
-				
-				<li class="nav-header">内容管理</li>
-				<li><a href="/admin/article/add">发布文章</a></li>
-				<li><a href="/admin/article/list">文章列表</a></li>
-				<li><a href="/admin/tag">标签管理</a></li>
-				
-				<li class="nav-header">用户管理</li>
-				<li><a href="/admin/user/add">添加用户</a></li>
-				<li><a href="/admin/user/list">用户列表</a></li>
-			
-		    </ul>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+		{{.LayoutContent}}
 		</div>
 	</div>
-	<div class="span10">
-		{{.LayoutContent}}
-	</div>
-	<!-- end span10 -->
-	</div>
-	<!-- end row -->
-</div>
-<!-- end container -->
-<div class="footer">
-	<div class="container">
-	Copyright &copy; 2013 <a href="http://www.lisijie.org">lisijie.org</a>. All Rights Reserved.</div>
 </div>
 </body>
 </html>
