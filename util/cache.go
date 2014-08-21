@@ -1,12 +1,9 @@
-package cache
+package util
 
 import (
 	"container/list"
 	"sync"
 )
-
-var _instance *LruCache
-var _init bool
 
 type keyValue struct {
 	key   string
@@ -97,12 +94,4 @@ func NewLruCache(maxSize int) *LruCache {
 		itemMap:  make(map[string]*list.Element),
 		maxSize:  maxSize,
 	}
-}
-
-func Instance(maxSize int) *LruCache {
-	if !_init {
-		_instance = NewLruCache(maxSize)
-		_init = true
-	}
-	return _instance
 }
