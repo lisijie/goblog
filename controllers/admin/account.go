@@ -40,7 +40,7 @@ func (this *AccountController) Login() {
 			}
 		}
 	}
-	this.TplNames = "admin/account_login.html"
+	this.TplNames = this.moduleName + "/account/login.html"
 }
 
 //退出登录
