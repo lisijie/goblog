@@ -1,7 +1,7 @@
 package admin
 
 import (
-	"github.com/lisijie/goblog/models/option"
+	"github.com/lisijie/goblog/models"
 )
 
 type SystemController struct {
@@ -10,11 +10,11 @@ type SystemController struct {
 
 //系统设置
 func (this *SystemController) Setting() {
-	var result []*option.Option
-	new(option.Option).Query().All(&result)
+	var result []*models.Option
+	new(models.Option).Query().All(&result)
 
 	options := make(map[string]string)
-	mp := make(map[string]*option.Option)
+	mp := make(map[string]*models.Option)
 	for _, v := range result {
 		options[v.Name] = v.Value
 		mp[v.Name] = v
@@ -25,7 +25,7 @@ func (this *SystemController) Setting() {
 		for _, key := range keys {
 			val := this.GetString(key)
 			if _, ok := mp[key]; !ok {
-				opt := new(option.Option)
+				opt := new(models.Option)
 				opt.Name = key
 				opt.Value = val
 				options[key] = val

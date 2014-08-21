@@ -1,11 +1,9 @@
 package models
 
 import (
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	_ "github.com/lisijie/goblog/models/option"
 )
 
 func Init() {
@@ -19,10 +17,10 @@ func Init() {
 	}
 	dsn := dbuser + ":" + dbpassword + "@tcp(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=utf8"
 	orm.RegisterDataBase("default", "mysql", dsn)
-	orm.RegisterModel(new(User), new(Post), new(Tag), new(TagPost))
+	orm.RegisterModel(new(User), new(Post), new(Tag), new(TagPost), new(Option))
 }
 
 //返回带前缀的表名
 func TableName(str string) string {
-	return fmt.Sprintf("%s%s", beego.AppConfig.String("dbprefix"), str)
+	return beego.AppConfig.String("dbprefix") + str
 }
