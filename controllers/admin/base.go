@@ -3,6 +3,7 @@ package admin
 import (
 	"github.com/astaxie/beego"
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/models/option"
 	"github.com/lisijie/goblog/util"
 	"strconv"
 	"strings"
@@ -100,11 +101,7 @@ func (this *baseController) checkPermission() {
 }
 
 func (this *baseController) getTime() time.Time {
-	options := models.GetOptions()
-	timezone := float64(0)
-	if v, ok := options["timezone"]; ok {
-		timezone, _ = strconv.ParseFloat(v, 64)
-	}
+	timezone, _ := strconv.ParseFloat(option.Get("timezone"), 64)
 	add := timezone * float64(time.Hour)
 	return time.Now().UTC().Add(time.Duration(add))
 }

@@ -1,7 +1,7 @@
 package admin
 
 import (
-	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/models/option"
 )
 
 type SystemController struct {
@@ -10,30 +10,30 @@ type SystemController struct {
 
 //系统设置
 func (this *SystemController) Setting() {
-	var result []*models.Option
-	new(models.Option).Query().All(&result)
+	var result []*option.Option
+	new(option.Option).Query().All(&result)
 
 	options := make(map[string]string)
-	mp := make(map[string]*models.Option)
+	mp := make(map[string]*option.Option)
 	for _, v := range result {
 		options[v.Name] = v.Value
 		mp[v.Name] = v
 	}
 
-	if this.Ctx.Request.Method == "POST" {
+	if this.isPost() {
 		keys := []string{"sitename", "siteurl", "subtitle", "pagesize", "keywords", "description", "email", "theme", "timezone", "stat"}
 		for _, key := range keys {
 			val := this.GetString(key)
 			if _, ok := mp[key]; !ok {
-				option := new(models.Option)
-				option.Name = key
-				option.Value = val
+				opt := new(option.Option)
+				opt.Name = key
+				opt.Value = val
 				options[key] = val
-				option.Insert()
+				opt.Insert()
 			} else {
-				option := mp[key]
-				option.Value = val
-				option.Update("Value")
+				opt := mp[key]
+				opt.Value = val
+				opt.Update("Value")
 			}
 		}
 		this.Redirect("/admin/system/setting", 302)

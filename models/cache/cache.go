@@ -1,14 +1,14 @@
-package models
+package cache
 
 import (
 	"github.com/astaxie/beego/cache"
 )
 
-var Cache cache.Cache
+var _instance cache.Cache
+var _init = false
 
 func init() {
 	cache.Register("LocalCache", NewCache())
-	Cache, _ = cache.NewCache("LocalCache", "")
 }
 
 type LocalCache struct {
@@ -59,4 +59,12 @@ func NewCache() cache.Cache {
 	obj := &LocalCache{}
 	obj.data = make(map[string]interface{})
 	return obj
+}
+
+func Instance() cache.Cache {
+	if !_init {
+		_instance, _ = cache.NewCache("LocalCache", "")
+		_init = true
+	}
+	return _instance
 }

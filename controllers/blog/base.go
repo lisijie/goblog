@@ -2,7 +2,7 @@ package blog
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/models/option"
 	"os"
 	"strings"
 )
@@ -20,7 +20,7 @@ func (this *baseController) Prepare() {
 	this.moduleName = "blog"
 	this.controllerName = strings.ToLower(controllerName[0 : len(controllerName)-10])
 	this.actionName = strings.ToLower(actionName)
-	this.options = models.GetOptions()
+	this.options = option.GetOptions()
 	this.Data["options"] = this.options
 }
 

@@ -2,6 +2,7 @@ package blog
 
 import (
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/util"
 	"strconv"
 	"strings"
 )
@@ -35,7 +36,7 @@ func (this *MainController) Index() {
 
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), "").ToString()
+	this.Data["pagebar"] = util.NewPager(int64(page), int64(count), int64(pagesize), "").ToString()
 	this.setHeadMetas()
 	this.display("index")
 }
@@ -109,7 +110,7 @@ func (this *MainController) Archives() {
 	this.Data["page"] = page
 	this.Data["count"] = count
 	this.Data["pagesize"] = pagesize
-	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), "/archives").ToString()
+	this.Data["pagebar"] = util.NewPager(int64(page), int64(count), int64(pagesize), "/archives").ToString()
 	this.Data["result"] = result
 
 	this.setHeadMetas("归档")
@@ -173,7 +174,7 @@ func (this *MainController) Category() {
 	this.Data["pagesize"] = pagesize
 	this.Data["count"] = count
 	this.Data["result"] = result
-	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), tag.Link()).ToString()
+	this.Data["pagebar"] = util.NewPager(int64(page), int64(count), int64(pagesize), tag.Link()).ToString()
 
 	this.setHeadMetas(tag.Name, tag.Name, tag.Name)
 	this.display("category")

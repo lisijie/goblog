@@ -1,8 +1,18 @@
-package models
+package option
 
 import (
+	"github.com/astaxie/beego"
+	bcache "github.com/astaxie/beego/cache"
 	"github.com/astaxie/beego/orm"
+	"github.com/lisijie/goblog/models/cache"
 )
+
+var mc bcache.Cache
+
+func init() {
+	mc = cache.Instance()
+	orm.RegisterModel(new(Option))
+}
 
 //配置项表
 type Option struct {
@@ -12,14 +22,14 @@ type Option struct {
 }
 
 func (m *Option) TableName() string {
-	return TableName("option")
+	return beego.AppConfig.String("dbprefix") + "option"
 }
 
 func (m *Option) Insert() error {
 	if _, err := orm.NewOrm().Insert(m); err != nil {
 		return err
 	}
-	Cache.Delete("options")
+	mc.Delete("options")
 	return nil
 }
 
@@ -34,7 +44,7 @@ func (m *Option) Update(fields ...string) error {
 	if _, err := orm.NewOrm().Update(m, fields...); err != nil {
 		return err
 	}
-	Cache.Delete("options")
+	mc.Delete("options")
 	return nil
 }
 
@@ -42,7 +52,7 @@ func (m *Option) Delete() error {
 	if _, err := orm.NewOrm().Delete(m); err != nil {
 		return err
 	}
-	Cache.Delete("options")
+	mc.Delete("options")
 	return nil
 }
 

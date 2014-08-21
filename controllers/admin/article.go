@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/util"
 	"os"
 	"strconv"
 	"strings"
@@ -58,7 +59,7 @@ func (this *ArticleController) List() {
 	this.Data["status"] = status
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(page, count, pagesize, fmt.Sprintf("/admin/article/list?status=%d&searchtype=%s&keyword=%s", status, searchtype, keyword), true).ToString()
+	this.Data["pagebar"] = util.NewPager(page, count, pagesize, fmt.Sprintf("/admin/article/list?status=%d&searchtype=%s&keyword=%s", status, searchtype, keyword), true).ToString()
 	this.display()
 }
 

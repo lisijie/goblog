@@ -2,6 +2,7 @@ package admin
 
 import (
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/util"
 	"strconv"
 	"strings"
 )
@@ -39,7 +40,7 @@ func (this *TagController) list() {
 
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(page, count, pagesize, "/admin/tag", true).ToString()
+	this.Data["pagebar"] = util.NewPager(page, count, pagesize, "/admin/tag", true).ToString()
 	this.display("tag/list")
 }
 
