@@ -7,13 +7,14 @@ import (
 	"github.com/lisijie/goblog/controllers/admin"
 	"github.com/lisijie/goblog/controllers/blog"
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/util"
 	"os"
 	"path/filepath"
 )
 
 func init() {
 	var config_file string
-	flag.StringVar(&config_file, "config-file", "", "the path of the config file")
+	flag.StringVar(&config_file, "conf", "", "the path of the config file")
 	flag.Parse()
 	if config_file != "" {
 		beego.AppConfigPath, _ = filepath.Abs(config_file)
@@ -24,6 +25,11 @@ func init() {
 			beego.ParseConfig()
 		}
 	}
+
+	util.Factory.Set("cache", func() (interface{}, error) {
+		mc := util.NewLruCache(1000)
+		return mc, nil
+	})
 
 	models.Init()
 }

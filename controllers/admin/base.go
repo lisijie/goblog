@@ -17,6 +17,7 @@ type baseController struct {
 	moduleName     string
 	controllerName string
 	actionName     string
+	cache          *util.LruCache
 }
 
 func (this *baseController) Prepare() {
@@ -26,6 +27,8 @@ func (this *baseController) Prepare() {
 	this.actionName = strings.ToLower(actionName)
 	this.auth()
 	this.checkPermission()
+	cache, _ := util.Factory.Get("cache")
+	this.cache = cache.(*util.LruCache)
 }
 
 //登录状态验证
