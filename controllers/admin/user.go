@@ -17,7 +17,7 @@ func (this *UserController) List() {
 	var list []*models.User
 	var user models.User
 
-	if page, _ = this.GetInt("page"); page < 1 {
+	if page, _ = this.GetInt64("page"); page < 1 {
 		page = 1
 	}
 	offset := (page - 1) * pagesize
@@ -100,7 +100,7 @@ func (this *UserController) Add() {
 
 //编辑用户
 func (this *UserController) Edit() {
-	id, _ := this.GetInt("id")
+	id, _ := this.GetInt64("id")
 	user := models.User{Id: id}
 	if err := user.Read(); err != nil {
 		this.showmsg("用户不存在")
@@ -150,7 +150,7 @@ func (this *UserController) Edit() {
 
 //删除用户
 func (this *UserController) Delete() {
-	id, _ := this.GetInt("id")
+	id, _ := this.GetInt64("id")
 	if id == 1 {
 		this.showmsg("不能删除ID为1的用户")
 	}

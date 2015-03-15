@@ -27,7 +27,7 @@ func (this *TagController) list() {
 	var list []*models.Tag
 	var tag models.Tag
 
-	if page, _ = this.GetInt("page"); page < 1 {
+	if page, _ = this.GetInt64("page"); page < 1 {
 		page = 1
 	}
 	offset := (page - 1) * pagesize
