@@ -3,7 +3,7 @@ package admin
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
-	"github.com/lisijie/goblog/models"
+	"github.com/lionel0806/goblog/models"
 	"os"
 	"strconv"
 	"strings"

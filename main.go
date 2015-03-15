@@ -4,9 +4,9 @@ import (
 	"flag"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"github.com/lisijie/goblog/controllers/admin"
-	"github.com/lisijie/goblog/controllers/blog"
-	"github.com/lisijie/goblog/models"
+	"github.com/lionel0806/goblog/controllers/admin"
+	"github.com/lionel0806/goblog/controllers/blog"
+	"github.com/lionel0806/goblog/models"
 	"os"
 	"path/filepath"
 )
