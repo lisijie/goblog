@@ -5,9 +5,7 @@
 开发中，数据表结构随时可能调整...
 
 演示地址：
-[http://www.ptapp.cn/](http://www.ptapp.cn/)
 
-我的博客：
 [http://www.lisijie.org/](http://www.lisijie.org/)
 
 ##编译安装说明：
