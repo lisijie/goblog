@@ -6,7 +6,7 @@ import (
 
 //配置项表
 type Option struct {
-	Id    int64
+	Id    int
 	Name  string
 	Value string
 }

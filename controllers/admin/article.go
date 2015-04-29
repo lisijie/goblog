@@ -18,10 +18,10 @@ type ArticleController struct {
 //管理
 func (this *ArticleController) List() {
 	var (
-		page       int64
-		pagesize   int64 = 10
-		status     int64
-		offset     int64
+		page       int
+		pagesize   int = 10
+		status     int
+		offset     int
 		list       []*models.Post
 		post       models.Post
 		searchtype string
@@ -49,7 +49,7 @@ func (this *ArticleController) List() {
 	}
 	count, _ := query.Count()
 	if count > 0 {
-		query.OrderBy("-istop", "-posttime").Limit(pagesize, offset).All(&list)
+		query.OrderBy("-is_top", "-post_time").Limit(pagesize, offset).All(&list)
 	}
 
 	this.Data["searchtype"] = searchtype
@@ -59,7 +59,7 @@ func (this *ArticleController) List() {
 	this.Data["status"] = status
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = util.NewPager(page, count, pagesize, fmt.Sprintf("/admin/article/list?status=%d&searchtype=%s&keyword=%s", status, searchtype, keyword), true).ToString()
+	this.Data["pagebar"] = util.NewPager(page, int(count), pagesize, fmt.Sprintf("/admin/article/list?status=%d&searchtype=%s&keyword=%s", status, searchtype, keyword), true).ToString()
 	this.display()
 }
 
@@ -78,21 +78,21 @@ func (this *ArticleController) Edit() {
 	}
 	post.Tags = strings.Trim(post.Tags, ",")
 	this.Data["post"] = post
-	this.Data["posttime"] = post.Posttime.Format("2006-01-02 15:04:05")
+	this.Data["posttime"] = post.PostTime.Format("2006-01-02 15:04:05")
 	this.display()
 }
 
 //保存
 func (this *ArticleController) Save() {
 	var (
-		id      int64  = 0
+		id      int    = 0
 		title   string = strings.TrimSpace(this.GetString("title"))
 		content string = this.GetString("content")
 		tags    string = strings.TrimSpace(this.GetString("tags"))
 		urlname string = strings.TrimSpace(this.GetString("urlname"))
 		color   string = strings.TrimSpace(this.GetString("color"))
 		timestr string = strings.TrimSpace(this.GetString("posttime"))
-		status  int64  = 0
+		status  int    = 0
 		istop   int8   = 0
 		urltype int8   = 0
 		post    models.Post
@@ -136,10 +136,10 @@ func (this *ArticleController) Save() {
 	}
 
 	if id < 1 {
-		post.Userid = this.userid
+		post.UserId = this.userid
 		post.Author = this.username
-		post.Posttime = this.getTime()
-		post.Updated = this.getTime()
+		post.PostTime = this.getTime()
+		post.UpdateTime = this.getTime()
 		post.Insert()
 	} else {
 		post.Id = id
@@ -167,25 +167,25 @@ func (this *ArticleController) Save() {
 				tag.Count += 1
 				tag.Update("Count")
 			}
-			tp := models.TagPost{Tagid: tag.Id, Postid: post.Id, Poststatus: int8(status), Posttime: this.getTime()}
+			tp := models.TagPost{TagId: tag.Id, PostId: post.Id, PostStatus: int8(status), PostTime: this.getTime()}
 			tp.Insert()
 		}
 		post.Tags = "," + strings.Join(addtags, ",") + ","
 	}
 	if posttime, err := time.Parse("2006-01-02 15:04:05", timestr); err == nil {
-		post.Posttime = posttime
+		post.PostTime = posttime
 	} else {
-		post.Posttime, _ = time.Parse("2006-01-02 15:04:05", post.Posttime.Format("2006-01-02 15:04:05"))
+		post.PostTime, _ = time.Parse("2006-01-02 15:04:05", post.PostTime.Format("2006-01-02 15:04:05"))
 	}
 	post.Status = int8(status)
 	post.Title = title
 	post.Color = color
-	post.Istop = istop
+	post.IsTop = istop
 	post.Content = content
-	post.Urlname = urlname
-	post.Urltype = urltype
-	post.Updated = this.getTime()
-	post.Update("tags", "status", "title", "color", "istop", "content", "urlname", "urltype", "updated", "posttime")
+	post.UrlName = urlname
+	post.UrlType = urltype
+	post.UpdateTime = this.getTime()
+	post.Update("tags", "status", "title", "color", "is_top", "content", "url_name", "url_type", "updated", "post_time")
 
 RD:
 	this.Redirect("/admin/article/list", 302)
@@ -206,10 +206,10 @@ func (this *ArticleController) Batch() {
 	ids := this.GetStrings("ids[]")
 	op := this.GetString("op")
 
-	idarr := make([]int64, 0)
+	idarr := make([]int, 0)
 	for _, v := range ids {
 		if id, _ := strconv.Atoi(v); id > 0 {
-			idarr = append(idarr, int64(id))
+			idarr = append(idarr, id)
 		}
 	}
 

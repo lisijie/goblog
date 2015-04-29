@@ -1,29 +1,29 @@
 package models
 
 import (
-	"github.com/lisijie/goblog/util"
 	"bytes"
 	"fmt"
 	"github.com/astaxie/beego/orm"
+	"github.com/lisijie/goblog/util"
 	"strings"
 	"time"
 )
 
 type Post struct {
-	Id       int64
-	Userid   int64  `orm:"index"`
-	Author   string `orm:"size(15)"`
-	Title    string `orm:"size(100)"`
-	Color    string `orm:"size(7)"`
-	Urlname  string `orm:"size(100);index"`
-	Urltype  int8
-	Content  string    `orm:"type(text)"`
-	Tags     string    `orm:"size(100)"`
-	Posttime time.Time `orm:"type(datetime);index"`
-	Views    int64
-	Status   int8
-	Updated  time.Time `orm:"type(datetime)"`
-	Istop    int8
+	Id         int
+	UserId     int    `orm:"index"`
+	Author     string `orm:"size(15)"`
+	Title      string `orm:"size(100)"`
+	Color      string `orm:"size(7)"`
+	UrlName    string `orm:"size(100);index"`
+	UrlType    int8
+	Content    string    `orm:"type(text)"`
+	Tags       string    `orm:"size(100)"`
+	PostTime   time.Time `orm:"type(datetime);index"`
+	Views      int
+	Status     int8
+	UpdateTime time.Time `orm:"type(datetime)"`
+	IsTop      int8
 }
 
 func (m *Post) TableName() string {
@@ -81,11 +81,11 @@ func (m *Post) ColorTitle() string {
 
 //内容URL
 func (m *Post) Link() string {
-	if m.Urlname != "" {
-		if m.Urltype == 1 {
-			return fmt.Sprintf("/%s", util.Rawurlencode(m.Urlname))
+	if m.UrlName != "" {
+		if m.UrlType == 1 {
+			return fmt.Sprintf("/%s", util.Rawurlencode(m.UrlName))
 		}
-		return fmt.Sprintf("/article/%s", util.Rawurlencode(m.Urlname))
+		return fmt.Sprintf("/article/%s", util.Rawurlencode(m.UrlName))
 	}
 	return fmt.Sprintf("/article/%d", m.Id)
 }

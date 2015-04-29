@@ -8,15 +8,15 @@ import (
 )
 
 type Pager struct {
-	Page     int64
-	Totalnum int64
-	Pagesize int64
+	Page     int
+	Totalnum int
+	Pagesize int
 	urlpath  string
 	urlquery string
 	nopath   bool
 }
 
-func NewPager(page, totalnum, pagesize int64, url string, nopath ...bool) *Pager {
+func NewPager(page, totalnum, pagesize int, url string, nopath ...bool) *Pager {
 	p := new(Pager)
 	p.Page = page
 	p.Totalnum = totalnum
@@ -39,7 +39,7 @@ func NewPager(page, totalnum, pagesize int64, url string, nopath ...bool) *Pager
 	return p
 }
 
-func (this *Pager) url(page int64) string {
+func (this *Pager) url(page int) string {
 	if this.nopath { //不使用目录形式
 		if this.urlquery != "" {
 			return fmt.Sprintf("%s%s&page=%d", this.urlpath, this.urlquery, page)
@@ -57,12 +57,12 @@ func (this *Pager) ToString() string {
 	}
 
 	var buf bytes.Buffer
-	var from, to, linknum, offset, totalpage int64
+	var from, to, linknum, offset, totalpage int
 
 	offset = 5
 	linknum = 10
 
-	totalpage = int64(math.Ceil(float64(this.Totalnum) / float64(this.Pagesize)))
+	totalpage = int(math.Ceil(float64(this.Totalnum) / float64(this.Pagesize)))
 
 	if totalpage < linknum {
 		from = 1

@@ -12,7 +12,7 @@ import (
 
 type baseController struct {
 	beego.Controller
-	userid         int64
+	userid         int
 	username       string
 	moduleName     string
 	controllerName string
@@ -39,13 +39,13 @@ func (this *baseController) auth() {
 		arr := strings.Split(this.Ctx.GetCookie("auth"), "|")
 		if len(arr) == 2 {
 			idstr, password := arr[0], arr[1]
-			userid, _ := strconv.ParseInt(idstr, 10, 0)
+			userid, _ := strconv.Atoi(idstr)
 			if userid > 0 {
 				var user models.User
 				user.Id = userid
 				if user.Read() == nil && password == util.Md5([]byte(this.getClientIp()+"|"+user.Password)) {
 					this.userid = user.Id
-					this.username = user.Username
+					this.username = user.UserName
 				}
 			}
 		}

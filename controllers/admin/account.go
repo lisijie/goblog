@@ -19,21 +19,21 @@ func (this *AccountController) Login() {
 		remember := this.GetString("remember")
 		if account != "" && password != "" {
 			var user models.User
-			user.Username = account
-			if user.Read("username") != nil || user.Password != util.Md5([]byte(password)) {
+			user.UserName = account
+			if user.Read("user_name") != nil || user.Password != util.Md5([]byte(password)) {
 				this.Data["errmsg"] = "帐号或密码错误"
 			} else if user.Active == 0 {
 				this.Data["errmsg"] = "该帐号未激活"
 			} else {
-				user.Logincount += 1
-				user.Lastip = this.getClientIp()
-				user.Lastlogin = this.getTime()
+				user.LoginCount += 1
+				user.LastIp = this.getClientIp()
+				user.LastLogin = this.getTime()
 				user.Update()
 				authkey := util.Md5([]byte(this.getClientIp() + "|" + user.Password))
 				if remember == "yes" {
-					this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey, 7*86400)
+					this.Ctx.SetCookie("auth", strconv.Itoa(user.Id)+"|"+authkey, 7*86400)
 				} else {
-					this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey)
+					this.Ctx.SetCookie("auth", strconv.Itoa(user.Id)+"|"+authkey)
 				}
 
 				this.Redirect("/admin", 302)
