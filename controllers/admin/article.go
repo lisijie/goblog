@@ -3,7 +3,7 @@ package admin
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
-	"github.com/lisijie/goblog/models"
+	"github.com/lionel0806/goblog/models"
 	"os"
 	"strconv"
 	"strings"
@@ -28,8 +28,8 @@ func (this *ArticleController) List() {
 	)
 	searchtype = this.GetString("searchtype")
 	keyword = this.GetString("keyword")
-	status, _ = this.GetInt("status")
-	if page, _ = this.GetInt("page"); page < 1 {
+	status, _ = this.GetInt64("status")
+	if page, _ = this.GetInt64("page"); page < 1 {
 		page = 1
 	}
 	offset = (page - 1) * pagesize
@@ -70,7 +70,7 @@ func (this *ArticleController) Add() {
 
 //编辑
 func (this *ArticleController) Edit() {
-	id, _ := this.GetInt("id")
+	id, _ := this.GetInt64("id")
 	post := models.Post{Id: id}
 	if post.Read() != nil {
 		this.Abort("404")
@@ -101,8 +101,8 @@ func (this *ArticleController) Save() {
 		this.showmsg("标题不能为空！")
 	}
 
-	id, _ = this.GetInt("id")
-	status, _ = this.GetInt("status")
+	id, _ = this.GetInt64("id")
+	status, _ = this.GetInt64("status")
 
 	if this.GetString("istop") == "1" {
 		istop = 1
@@ -192,7 +192,7 @@ RD:
 
 //删除
 func (this *ArticleController) Delete() {
-	id, _ := this.GetInt("id")
+	id, _ := this.GetInt64("id")
 	post := models.Post{Id: id}
 	if post.Read() == nil {
 		post.Delete()
