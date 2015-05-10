@@ -2,12 +2,13 @@ package admin
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/orm"
-	"github.com/lisijie/goblog/models"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/astaxie/beego/orm"
+	"github.com/lisijie/goblog/models"
 )
 
 type ArticleController struct {
@@ -17,10 +18,10 @@ type ArticleController struct {
 //管理
 func (this *ArticleController) List() {
 	var (
-		page       int64
-		pagesize   int64 = 10
-		status     int64
-		offset     int64
+		page       int
+		pagesize   int = 10
+		status     int
+		offset     int
 		list       []*models.Post
 		post       models.Post
 		searchtype string
@@ -58,7 +59,7 @@ func (this *ArticleController) List() {
 	this.Data["status"] = status
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(page, count, pagesize, fmt.Sprintf("/admin/article/list?status=%d&searchtype=%s&keyword=%s", status, searchtype, keyword), true).ToString()
+	this.Data["pagebar"] = models.NewPager(page, int(count), pagesize, fmt.Sprintf("/admin/article/list?status=%d&searchtype=%s&keyword=%s", status, searchtype, keyword), true).ToString()
 	this.display()
 }
 
@@ -84,14 +85,14 @@ func (this *ArticleController) Edit() {
 //保存
 func (this *ArticleController) Save() {
 	var (
-		id      int64  = 0
+		id      int    = 0
 		title   string = strings.TrimSpace(this.GetString("title"))
 		content string = this.GetString("content")
 		tags    string = strings.TrimSpace(this.GetString("tags"))
 		urlname string = strings.TrimSpace(this.GetString("urlname"))
 		color   string = strings.TrimSpace(this.GetString("color"))
 		timestr string = strings.TrimSpace(this.GetString("posttime"))
-		status  int64  = 0
+		status  int    = 0
 		istop   int8   = 0
 		urltype int8   = 0
 		post    models.Post
@@ -205,10 +206,10 @@ func (this *ArticleController) Batch() {
 	ids := this.GetStrings("ids[]")
 	op := this.GetString("op")
 
-	idarr := make([]int64, 0)
+	idarr := make([]int, 0)
 	for _, v := range ids {
 		if id, _ := strconv.Atoi(v); id > 0 {
-			idarr = append(idarr, int64(id))
+			idarr = append(idarr, int(id))
 		}
 	}
 

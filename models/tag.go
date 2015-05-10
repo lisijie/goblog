@@ -2,16 +2,17 @@ package models
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/orm"
 	"strconv"
 	"strings"
+
+	"github.com/astaxie/beego/orm"
 )
 
 //标签表
 type Tag struct {
-	Id    int64
+	Id    int
 	Name  string `orm:"size(20);index"`
-	Count int64
+	Count int
 }
 
 func (m *Tag) TableName() string {
@@ -47,7 +48,7 @@ func (m *Tag) Delete() error {
 	if len(list) > 0 {
 		ids := make([]string, 0, len(list))
 		for _, v := range list {
-			ids = append(ids, strconv.FormatInt(v.Postid, 10))
+			ids = append(ids, strconv.Itoa(v.Postid))
 		}
 		orm.NewOrm().Raw("UPDATE "+table+" SET tags = REPLACE(tags, ?,',') WHERE id IN ("+strings.Join(ids, ",")+")", ","+m.Name+",").Exec()
 		new(TagPost).Query().Filter("tagid", m.Id).Delete()
@@ -70,7 +71,8 @@ func (m *Tag) Link() string {
 
 //更新统计
 func (m *Tag) UpCount() {
-	m.Count, _ = new(TagPost).Query().Filter("tagid", m.Id).Count()
+	count, _ := new(TagPost).Query().Filter("tagid", m.Id).Count()
+	m.Count = int(count)
 	m.Update("count")
 }
 
@@ -82,7 +84,7 @@ func (m *Tag) MergeTo(to *Tag) {
 	if len(list) > 0 {
 		ids := make([]string, 0, len(list))
 		for _, v := range list {
-			ids = append(ids, strconv.FormatInt(v.Postid, 10))
+			ids = append(ids, strconv.Itoa(v.Postid))
 		}
 		tp.Query().Filter("tagid", m.Id).Update(orm.Params{"tagid": to.Id})
 		orm.NewOrm().Raw("UPDATE "+new(Post).TableName()+" SET tags = REPLACE(tags, ?, ?) WHERE id IN ("+strings.Join(ids, ",")+")", ","+m.Name+",", ","+to.Name+",").Exec()

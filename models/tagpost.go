@@ -1,15 +1,16 @@
 package models
 
 import (
-	"github.com/astaxie/beego/orm"
 	"time"
+
+	"github.com/astaxie/beego/orm"
 )
 
 //标签内容关系表
 type TagPost struct {
-	Id         int64
-	Tagid      int64 `orm:"index"`
-	Postid     int64
+	Id         int
+	Tagid      int `orm:"index"`
+	Postid     int
 	Poststatus int8
 	Posttime   time.Time
 }

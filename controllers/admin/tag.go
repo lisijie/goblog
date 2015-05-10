@@ -1,9 +1,10 @@
 package admin
 
 import (
-	"github.com/lisijie/goblog/models"
 	"strconv"
 	"strings"
+
+	"github.com/lisijie/goblog/models"
 )
 
 type TagController struct {
@@ -22,8 +23,8 @@ func (this *TagController) Index() {
 
 //标签列表
 func (this *TagController) list() {
-	var page int64
-	var pagesize int64 = 10
+	var page int
+	var pagesize int = 10
 	var list []*models.Tag
 	var tag models.Tag
 
@@ -39,7 +40,7 @@ func (this *TagController) list() {
 
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(page, count, pagesize, "/admin/tag", true).ToString()
+	this.Data["pagebar"] = models.NewPager(page, int(count), pagesize, "/admin/tag", true).ToString()
 	this.display("tag_list")
 }
 
@@ -48,10 +49,10 @@ func (this *TagController) batch() {
 	ids := this.GetStrings("ids[]")
 	op := this.GetString("op")
 
-	idarr := make([]int64, 0)
+	idarr := make([]int, 0)
 	for _, v := range ids {
 		if id, _ := strconv.Atoi(v); id > 0 {
-			idarr = append(idarr, int64(id))
+			idarr = append(idarr, int(id))
 		}
 	}
 

@@ -1,9 +1,10 @@
 package blog
 
 import (
-	"github.com/lisijie/goblog/models"
 	"strconv"
 	"strings"
+
+	"github.com/lisijie/goblog/models"
 )
 
 type MainController struct {
@@ -35,7 +36,7 @@ func (this *MainController) Index() {
 
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), "").ToString()
+	this.Data["pagebar"] = models.NewPager(int(page), int(count), int(pagesize), "").ToString()
 	this.setHeadMetas()
 	this.display("index")
 }
@@ -53,7 +54,7 @@ func (this *MainController) Show() {
 		err = post.Read("urlname")
 	} else {
 		id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
-		post.Id = int64(id)
+		post.Id = int(id)
 		err = post.Read()
 	}
 	if err != nil || post.Status != 0 {
@@ -76,7 +77,7 @@ func (this *MainController) Archives() {
 		page     int
 		pagesize int
 		err      error
-		count    int64
+		count    int
 		result   map[string][]*models.Post
 	)
 
@@ -92,7 +93,8 @@ func (this *MainController) Archives() {
 
 	query := new(models.Post).Query().Filter("status", 0).Filter("urltype", 0)
 
-	count, _ = query.Count()
+	c, _ := query.Count()
+	count = int(c)
 	result = make(map[string][]*models.Post)
 	if count > 0 {
 		var list []*models.Post
@@ -109,7 +111,7 @@ func (this *MainController) Archives() {
 	this.Data["page"] = page
 	this.Data["count"] = count
 	this.Data["pagesize"] = pagesize
-	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), "/archives").ToString()
+	this.Data["pagebar"] = models.NewPager(int(page), int(count), int(pagesize), "/archives").ToString()
 	this.Data["result"] = result
 
 	this.setHeadMetas("归档")
@@ -123,7 +125,7 @@ func (this *MainController) Category() {
 		pagesize int
 		name     string
 		err      error
-		count    int64
+		count    int
 		result   map[string][]*models.Post
 	)
 	name = this.Ctx.Input.Param(":name")
@@ -145,12 +147,13 @@ func (this *MainController) Category() {
 	}
 
 	query := tagpost.Query().Filter("tagid", tag.Id).Filter("poststatus", 0)
-	count, _ = query.Count()
+	c, _ := query.Count()
+	count = int(c)
 	result = make(map[string][]*models.Post)
 	if count > 0 {
 		var tp []*models.TagPost
 		var list []*models.Post
-		var pids []int64 = make([]int64, 0)
+		var pids []int = make([]int, 0)
 
 		query.OrderBy("-posttime").Limit(pagesize, (page-1)*pagesize).All(&tp)
 		for _, v := range tp {
@@ -173,7 +176,7 @@ func (this *MainController) Category() {
 	this.Data["pagesize"] = pagesize
 	this.Data["count"] = count
 	this.Data["result"] = result
-	this.Data["pagebar"] = models.NewPager(int64(page), int64(count), int64(pagesize), tag.Link()).ToString()
+	this.Data["pagebar"] = models.NewPager(page, int(count), pagesize, tag.Link()).ToString()
 
 	this.setHeadMetas(tag.Name, tag.Name, tag.Name)
 	this.display("category")
