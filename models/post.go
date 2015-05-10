@@ -3,14 +3,15 @@ package models
 import (
 	"bytes"
 	"fmt"
-	"github.com/astaxie/beego/orm"
 	"strings"
 	"time"
+
+	"github.com/astaxie/beego/orm"
 )
 
 type Post struct {
-	Id       int64
-	Userid   int64  `orm:"index"`
+	Id       int
+	Userid   int    `orm:"index"`
 	Author   string `orm:"size(15)"`
 	Title    string `orm:"size(100)"`
 	Color    string `orm:"size(7)"`
@@ -19,7 +20,7 @@ type Post struct {
 	Content  string    `orm:"type(text)"`
 	Tags     string    `orm:"size(100)"`
 	Posttime time.Time `orm:"type(datetime);index"`
-	Views    int64
+	Views    int
 	Status   int8
 	Updated  time.Time `orm:"type(datetime)"`
 	Istop    int8

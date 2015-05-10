@@ -1,9 +1,10 @@
 package admin
 
 import (
+	"strings"
+
 	"github.com/astaxie/beego/validation"
 	"github.com/lisijie/goblog/models"
-	"strings"
 )
 
 type UserController struct {
@@ -12,8 +13,8 @@ type UserController struct {
 
 //用户列表
 func (this *UserController) List() {
-	var page int64
-	var pagesize int64 = 10
+	var page int
+	var pagesize int = 10
 	var list []*models.User
 	var user models.User
 
@@ -29,7 +30,7 @@ func (this *UserController) List() {
 
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(page, count, pagesize, "/admin/user/list", true).ToString()
+	this.Data["pagebar"] = models.NewPager(page, int(count), pagesize, "/admin/user/list", true).ToString()
 	this.display()
 }
 

@@ -1,9 +1,10 @@
 package admin
 
 import (
-	"github.com/lisijie/goblog/models"
 	"strconv"
 	"strings"
+
+	"github.com/lisijie/goblog/models"
 )
 
 type AccountController struct {
@@ -30,9 +31,9 @@ func (this *AccountController) Login() {
 				user.Update()
 				authkey := models.Md5([]byte(this.getClientIp() + "|" + user.Password))
 				if remember == "yes" {
-					this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey, 7*86400)
+					this.Ctx.SetCookie("auth", strconv.Itoa(user.Id)+"|"+authkey, 7*86400)
 				} else {
-					this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey)
+					this.Ctx.SetCookie("auth", strconv.Itoa(user.Id)+"|"+authkey)
 				}
 
 				this.Redirect("/admin", 302)
