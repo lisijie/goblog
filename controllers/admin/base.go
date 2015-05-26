@@ -33,25 +33,23 @@ func (this *baseController) Prepare() {
 
 //登录状态验证
 func (this *baseController) auth() {
-	if this.controllerName == "account" && (this.actionName == "login" || this.actionName == "logout") {
-
-	} else {
-		arr := strings.Split(this.Ctx.GetCookie("auth"), "|")
-		if len(arr) == 2 {
-			idstr, password := arr[0], arr[1]
-			userid, _ := strconv.Atoi(idstr)
-			if userid > 0 {
-				var user models.User
-				user.Id = userid
-				if user.Read() == nil && password == util.Md5([]byte(this.getClientIp()+"|"+user.Password)) {
-					this.userid = user.Id
-					this.username = user.UserName
-				}
+	arr := strings.Split(this.Ctx.GetCookie("auth"), "|")
+	if len(arr) == 2 {
+		idstr, password := arr[0], arr[1]
+		userid, _ := strconv.Atoi(idstr)
+		if userid > 0 {
+			var user models.User
+			user.Id = userid
+			if user.Read() == nil && password == util.Md5([]byte(this.getClientIp()+"|"+user.Password)) {
+				this.userid = user.Id
+				this.username = user.UserName
 			}
 		}
-		if this.userid == 0 {
-			this.Redirect("/admin/login", 302)
-		}
+	}
+
+	if this.userid == 0 && (this.controllerName != "account" ||
+		(this.controllerName == "account" && this.actionName != "logout" && this.actionName != "login")) {
+		this.Redirect("/admin/login", 302)
 	}
 }
 
@@ -93,6 +91,7 @@ func (this *baseController) isPost() bool {
 //获取用户IP地址
 func (this *baseController) getClientIp() string {
 	s := strings.Split(this.Ctx.Request.RemoteAddr, ":")
+
 	return s[0]
 }
 

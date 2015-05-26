@@ -22,6 +22,12 @@ func GetOptions() map[string]string {
 	return v.(map[string]string)
 }
 
+func FlushOptions() {
+	rs, _ := util.Factory.Get("cache")
+	cache := rs.(*util.LruCache)
+	cache.Delete("options")
+}
+
 func Get(key string) string {
 	options := GetOptions()
 	if v, ok := options[key]; ok {

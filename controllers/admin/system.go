@@ -2,6 +2,7 @@ package admin
 
 import (
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/models/option"
 )
 
 type SystemController struct {
@@ -36,6 +37,7 @@ func (this *SystemController) Setting() {
 				opt.Update("Value")
 			}
 		}
+		option.FlushOptions()
 		this.Redirect("/admin/system/setting", 302)
 	}
 

@@ -13,6 +13,11 @@ type AccountController struct {
 
 //登录
 func (this *AccountController) Login() {
+
+	if this.userid > 0 {
+		this.Redirect("/admin", 302)
+	}
+
 	if this.GetString("dosubmit") == "yes" {
 		account := strings.TrimSpace(this.GetString("account"))
 		password := strings.TrimSpace(this.GetString("password"))
