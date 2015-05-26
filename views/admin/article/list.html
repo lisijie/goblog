@@ -41,18 +41,18 @@
 			<td><input type="checkbox" name="ids[]" value="{{$v.Id}}" /></td>
 			<td>{{$v.Id}}</td>
 			<td class="hl_title">
-				{{if $v.Istop}}
+				{{if $v.IsTop}}
 				<i class="icon-arrow-up" title="置顶"> </i>
 				{{end}}
 				<a href="{{$v.Link}}" target="_blank">{{str2html $v.ColorTitle}}</a>
-				{{if $v.Urltype}}
+				{{if $v.UrlType}}
 				<span class="label label-important">页面</span>
 				{{end}}
 			</td>
 			<td class="hl_tag">{{str2html $v.TagsLink}}</td>
 			<td>{{$v.Views}}</td>
 			<td class="hl_author">{{$v.Author}}</td>
-			<td>{{date $v.Posttime "m月d日 H:i:s"}}</td>
+			<td>{{date $v.PostTime "m月d日 H:i:s"}}</td>
 			<td><a href="/admin/article/edit?id={{$v.Id}}">编辑</a> | <a href="/admin/article/delete?id={{$v.Id}}" onclick="return del_confirm()">删除</a></td>
 		</tr>
 		{{end}}

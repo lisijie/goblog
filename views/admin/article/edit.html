@@ -10,7 +10,7 @@
 					<input type="text" name="title" class="span6" value="{{.post.Title}}" {{if .post.Color}}style="color:{{.post.Color}}"{{end}} />
 					<input name="color" value="{{.post.Color}}" type="hidden" />
 					<img src="/static/themes/admin/img/colorpicker.png" id="colorpicker" style="cursor:pointer;margin:0 10px 10px 5px;" />
-					<span><label class="help-inline"><input type="checkbox" value="1" name="istop" {{if .post.Istop}}checked{{end}} /> 置顶文章</label></span>
+					<span><label class="help-inline"><input type="checkbox" value="1" name="istop" {{if .post.IsTop}}checked{{end}} /> 置顶文章</label></span>
 				</td>
 			</tr>
 			<tr>
@@ -20,9 +20,9 @@
 			<tr>
 				<th>URL名称</th>
 				<td>
-					<input type="text" name="urlname" class="span3" value="{{.post.Urlname}}" />
+					<input type="text" name="urlname" class="span3" value="{{.post.UrlName}}" />
 					<span>
-					<label class="help-inline" title="独立页面使用http://domain/urlname访问，普通页面使用http://domain/article/urlname访问"><input type="checkbox" name="urltype" value="1" {{if eq .post.Urltype 1}}checked{{end}} /> 作为独立页面不显示在列表(使用 http://domain/urlname 访问)</label>
+					<label class="help-inline" title="独立页面使用http://domain/urlname访问，普通页面使用http://domain/article/urlname访问"><input type="checkbox" name="urltype" value="1" {{if eq .post.UrlType 1}}checked{{end}} /> 作为独立页面不显示在列表(使用 http://domain/urlname 访问)</label>
 					</span>
 				</td>
 			</tr>

@@ -9,19 +9,19 @@
 			<tr>
 				<th class="span2">帐号</th>
 				<td>
-					<b>{{.user.Username}}</b>
+					<b>{{.user.UserName}}</b>
 				</td>
 			</tr>
 			<tr>
 				<th class="span2">登录次数</th>
 				<td>
-					{{.user.Logincount}}
+					{{.user.LoginCount}}
 				</td>
 			</tr>
 			<tr>
 				<th class="span2">最后登录</th>
 				<td>
-					{{date .user.Lastlogin "Y-m-d H:i:s"}} ({{.user.Lastip}})
+					{{date .user.LastLogin "Y-m-d H:i:s"}} ({{.user.LastIp}})
 				</td>
 			</tr>
 			<tr>

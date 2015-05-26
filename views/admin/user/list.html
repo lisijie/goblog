@@ -18,11 +18,11 @@
 		{{range $k, $v := .list}}
 			<tr>
 				<td>{{$v.Id}}</td>
-				<td>{{$v.Username}}</td>
+				<td>{{$v.UserName}}</td>
 				<td>{{$v.Email}}</td>
-				<td>{{date $v.Lastlogin "Y-m-d H:i:s"}}</td>
-				<td>{{$v.Lastip}}</td>
-				<td>{{$v.Logincount}}</td>
+				<td>{{date $v.LastLogin "Y-m-d H:i:s"}}</td>
+				<td>{{$v.LastIp}}</td>
+				<td>{{$v.LoginCount}}</td>
 				<td>
 					{{if eq $v.Active 1}}
 					<span class="text-success">已激活</span>
