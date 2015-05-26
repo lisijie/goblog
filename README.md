@@ -5,10 +5,6 @@
 开发中，数据表结构随时可能调整...
 
 演示地址：
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
 
 [http://www.lisijie.org/](http://www.lisijie.org/)
 
