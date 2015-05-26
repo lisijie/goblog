@@ -6,7 +6,7 @@ import (
 
 //配置项表
 type Option struct {
-	Id    int64
+	Id    int
 	Name  string
 	Value string
 }
@@ -19,7 +19,6 @@ func (m *Option) Insert() error {
 	if _, err := orm.NewOrm().Insert(m); err != nil {
 		return err
 	}
-	Cache.Delete("options")
 	return nil
 }
 
@@ -34,7 +33,6 @@ func (m *Option) Update(fields ...string) error {
 	if _, err := orm.NewOrm().Update(m, fields...); err != nil {
 		return err
 	}
-	Cache.Delete("options")
 	return nil
 }
 
@@ -42,7 +40,6 @@ func (m *Option) Delete() error {
 	if _, err := orm.NewOrm().Delete(m); err != nil {
 		return err
 	}
-	Cache.Delete("options")
 	return nil
 }
 

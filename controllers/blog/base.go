@@ -2,7 +2,8 @@ package blog
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/models/option"
+	"github.com/lisijie/goblog/util"
 	"os"
 	"strings"
 )
@@ -13,6 +14,7 @@ type baseController struct {
 	controllerName string
 	actionName     string
 	options        map[string]string
+	cache          *util.LruCache
 }
 
 func (this *baseController) Prepare() {
@@ -20,8 +22,10 @@ func (this *baseController) Prepare() {
 	this.moduleName = "blog"
 	this.controllerName = strings.ToLower(controllerName[0 : len(controllerName)-10])
 	this.actionName = strings.ToLower(actionName)
-	this.options = models.GetOptions()
+	this.options = option.GetOptions()
 	this.Data["options"] = this.options
+	cache, _ := util.Factory.Get("cache")
+	this.cache = cache.(*util.LruCache)
 }
 
 func (this *baseController) display(tpl string) {

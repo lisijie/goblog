@@ -7,11 +7,11 @@ import (
 
 //标签内容关系表
 type TagPost struct {
-	Id         int64
-	Tagid      int64 `orm:"index"`
-	Postid     int64
-	Poststatus int8
-	Posttime   time.Time
+	Id         int
+	TagId      int `orm:"index"`
+	PostId     int
+	PostStatus int8
+	PostTime   time.Time
 }
 
 func (m *TagPost) TableName() string {

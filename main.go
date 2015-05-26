@@ -7,13 +7,14 @@ import (
 	"github.com/lisijie/goblog/controllers/admin"
 	"github.com/lisijie/goblog/controllers/blog"
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/util"
 	"os"
 	"path/filepath"
 )
 
 func init() {
 	var config_file string
-	flag.StringVar(&config_file, "config-file", "", "the path of the config file")
+	flag.StringVar(&config_file, "conf", "", "the path of the config file")
 	flag.Parse()
 	if config_file != "" {
 		beego.AppConfigPath, _ = filepath.Abs(config_file)
@@ -24,6 +25,11 @@ func init() {
 			beego.ParseConfig()
 		}
 	}
+
+	util.Factory.Set("cache", func() (interface{}, error) {
+		mc := util.NewLruCache(1000)
+		return mc, nil
+	})
 
 	models.Init()
 }
@@ -36,7 +42,7 @@ func main() {
 	//前台路由
 	beego.Router("/", &blog.MainController{}, "*:Index")
 	beego.Router("/page/:page:int", &blog.MainController{}, "*:Index")
-	beego.Router("/article/:id:int", &blog.MainController{}, "*:Show")         //ID访问
+	beego.Router("/article/:id:int", &blog.MainController{}, "*:Show")      //ID访问
 	beego.Router("/article/:urlname(.+)", &blog.MainController{}, "*:Show") //别名访问
 	beego.Router("/archives", &blog.MainController{}, "*:Archives")
 	beego.Router("/archives/page/:page:int", &blog.MainController{}, "*:Archives")
@@ -46,6 +52,7 @@ func main() {
 
 	//后台路由
 	beego.Router("/admin", &admin.IndexController{}, "*:Index")
+	beego.Router("/admin/main", &admin.IndexController{}, "*:Main")
 	beego.Router("/admin/login", &admin.AccountController{}, "*:Login")
 	beego.Router("/admin/logout", &admin.AccountController{}, "*:Logout")
 	beego.Router("/admin/account/profile", &admin.AccountController{}, "*:Profile")

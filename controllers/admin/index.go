@@ -13,6 +13,15 @@ type IndexController struct {
 
 func (this *IndexController) Index() {
 
+	this.Data["version"] = beego.AppConfig.String("AppVer")
+	this.Data["adminid"] = this.userid
+	this.Data["adminname"] = this.username
+
+	this.TplNames = this.moduleName + "/index/index.html"
+}
+
+func (this *IndexController) Main() {
+
 	this.Data["hostname"], _ = os.Hostname()
 	this.Data["version"] = beego.AppConfig.String("AppVer")
 	this.Data["gover"] = runtime.Version()

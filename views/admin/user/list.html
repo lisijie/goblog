@@ -11,18 +11,18 @@
 			<th width="150">登录IP</th>
 			<th width="80">登录次数</th>
 			<th width="80">激活状态</th>
-			<th width="60">操作</th>
+			<th width="120">操作</th>
 		</tr>
 		</thead>
 		<tbody>
 		{{range $k, $v := .list}}
 			<tr>
 				<td>{{$v.Id}}</td>
-				<td>{{$v.Username}}</td>
+				<td>{{$v.UserName}}</td>
 				<td>{{$v.Email}}</td>
-				<td>{{date $v.Lastlogin "Y-m-d H:i:s"}}</td>
-				<td>{{$v.Lastip}}</td>
-				<td>{{$v.Logincount}}</td>
+				<td>{{date $v.LastLogin "Y-m-d H:i:s"}}</td>
+				<td>{{$v.LastIp}}</td>
+				<td>{{$v.LoginCount}}</td>
 				<td>
 					{{if eq $v.Active 1}}
 					<span class="text-success">已激活</span>

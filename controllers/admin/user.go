@@ -3,6 +3,7 @@ package admin
 import (
 	"github.com/astaxie/beego/validation"
 	"github.com/lisijie/goblog/models"
+	"github.com/lisijie/goblog/util"
 	"strings"
 )
 
@@ -12,8 +13,8 @@ type UserController struct {
 
 //用户列表
 func (this *UserController) List() {
-	var page int64
-	var pagesize int64 = 10
+	var page int
+	var pagesize int = 10
 	var list []*models.User
 	var user models.User
 
@@ -29,7 +30,7 @@ func (this *UserController) List() {
 
 	this.Data["count"] = count
 	this.Data["list"] = list
-	this.Data["pagebar"] = models.NewPager(page, count, pagesize, "/admin/user/list", true).ToString()
+	this.Data["pagebar"] = util.NewPager(page, int(count), pagesize, "/admin/user/list", true).ToString()
 	this.display()
 }
 
@@ -81,8 +82,8 @@ func (this *UserController) Add() {
 
 		if len(errmsg) == 0 {
 			var user models.User
-			user.Username = username
-			user.Password = models.Md5([]byte(password))
+			user.UserName = username
+			user.Password = util.Md5([]byte(password))
 			user.Email = email
 			user.Active = int8(active)
 			if err := user.Insert(); err != nil {
@@ -121,7 +122,7 @@ func (this *UserController) Edit() {
 			} else if password != password2 {
 				errmsg["password2"] = "两次输入的密码不一致"
 			} else {
-				user.Password = models.Md5([]byte(password))
+				user.Password = util.Md5([]byte(password))
 			}
 		}
 		if v := valid.Required(email, "email"); !v.Ok {

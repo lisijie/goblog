@@ -6,9 +6,10 @@
 		<thead>
 		<tr>
 			<th width="30"><input type="checkbox" name="all" value="0" onclick="checkall('ids[]', this)" /></th>
-			<th width="30">ID</th>
-			<th>标签名称</th>
+			<th width="60">ID</th>
+			<th width="200">标签名称</th>
 			<th width="150">内容数</th>
+			<th>&nbsp;</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -18,6 +19,7 @@
 				<td>{{$v.Id}}</td>
 				<td>{{$v.Name}}</td>
 				<td>{{$v.Count}}</td>
+				<td>&nbsp;</td>
 			</tr>
 		{{end}}
 		</tbody>
