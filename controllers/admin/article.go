@@ -3,8 +3,8 @@ package admin
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
-	"github.com/lisijie/goblog/models"
-	"github.com/lisijie/goblog/util"
+	"github.com/sndnvaps/goblog/models"
+	"github.com/sndnvaps/goblog/util"
 	"os"
 	"strconv"
 	"strings"
@@ -185,7 +185,7 @@ func (this *ArticleController) Save() {
 	post.UrlName = urlname
 	post.UrlType = urltype
 	post.UpdateTime = this.getTime()
-	post.Update("tags", "status", "title", "color", "is_top", "content", "url_name", "url_type", "updated", "post_time")
+	post.Update("tags", "status", "title", "color", "is_top", "content", "url_name", "url_type", "update_time", "post_time")
 
 RD:
 	this.Redirect("/admin/article/list", 302)

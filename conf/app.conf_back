@@ -42,7 +42,7 @@ dbport = 3306
 dbuser = root
 
 # MYSQL密码
-dbpassword = 447826004
+dbpassword = 
 
 # MYSQL数据库名称
 dbname = goblog

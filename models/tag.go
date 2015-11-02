@@ -3,7 +3,7 @@ package models
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
-	"github.com/lisijie/goblog/util"
+	"github.com/sndnvaps/goblog/util"
 	"strconv"
 	"strings"
 )
