@@ -2,8 +2,8 @@ package admin
 
 import (
 	"github.com/astaxie/beego/validation"
-	"github.com/lisijie/goblog/models"
-	"github.com/lisijie/goblog/util"
+	"github.com/sndnvaps/goblog/models"
+	"github.com/sndnvaps/goblog/util"
 	"strings"
 )
 

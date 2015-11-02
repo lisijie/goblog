@@ -2,9 +2,9 @@ package admin
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/lisijie/goblog/models"
-	"github.com/lisijie/goblog/models/option"
-	"github.com/lisijie/goblog/util"
+	"github.com/sndnvaps/goblog/models"
+	"github.com/sndnvaps/goblog/models/option"
+	"github.com/sndnvaps/goblog/util"
 	"strconv"
 	"strings"
 	"time"
