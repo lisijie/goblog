@@ -17,7 +17,7 @@ func (this *IndexController) Index() {
 	this.Data["adminid"] = this.userid
 	this.Data["adminname"] = this.username
 
-	this.TplNames = this.moduleName + "/index/index.html"
+	this.TplName = this.moduleName + "/index/index.html"
 }
 
 func (this *IndexController) Main() {

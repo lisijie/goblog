@@ -1,9 +1,11 @@
 package option
 
 import (
+	"strconv"
+	"time"
+
 	"github.com/lisijie/goblog/models"
 	"github.com/lisijie/goblog/util"
-	"strconv"
 )
 
 func GetOptions() map[string]string {
@@ -16,7 +18,7 @@ func GetOptions() map[string]string {
 		for _, v := range result {
 			options[v.Name] = v.Value
 		}
-		cache.Put("options", options, 0)
+		cache.Put("options", options, int64(0*time.Second))
 	}
 	v := cache.Get("options")
 	return v.(map[string]string)
