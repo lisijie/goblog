@@ -7,6 +7,16 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 /*Table structure for table `t_option` */
 
+
+/* create database goblog if not exists */
+/* if database goblog is exists just drop */
+
+DROP DATABASE IF EXISTS goblog;
+create database goblog charset=utf8;
+use goblog;
+set charset utf8;
+
+
 DROP TABLE IF EXISTS `t_option`;
 
 CREATE TABLE `t_option` (
